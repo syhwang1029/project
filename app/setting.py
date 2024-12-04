@@ -1,5 +1,7 @@
 import pymongo
 from pymongo import MongoClient
+# mogobd 공식 듀토리얼 참고
+# https://www.mongodb.com/ko-kr/docs/languages/python/pymongo-driver/v4.8/connect/
 
 try:
     uri = "mongodb+srv://test:SkGZDvJMAOSW1ez7@cluster.2fuhu.mongodb.net/"
