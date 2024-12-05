@@ -3,12 +3,11 @@ from typing import Union
 from fastapi import FastAPI  #FastAPI 서버
 import uvicorn #main 함수로 uvicorn 자동 실행 
 
-from app.mongodb.mongodb import MongoClient #MongoDB Client전용 URI 
+from app.mongodb.mongodb import MongoClient #MongoDB Client전용 URI 정보 
 
 
-### app ###
-app = FastAPI() #app 이란 변수에 FastAPI 서버 할당
-mongocilent = MongoClient() #MongoDB 
+app = FastAPI() #app 이란 객체에 FastAPI 서버 할당
+mongocilent = MongoClient() #Pymongo로 FastAPI와 MongoDB 동기적 연결
 
 
 ### URL ###
