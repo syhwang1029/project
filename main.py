@@ -3,7 +3,7 @@ from typing import Union
 from fastapi import FastAPI  #FastAPI 서버
 import uvicorn #main 함수로 uvicorn 자동 실행 
 
-from app.mongodb.mongobd import MongoClient #MongoDB Client전용 URI 
+from app.mongodb.mongodb import MongoClient #MongoDB Client전용 URI 
 
 
 ### app ###
