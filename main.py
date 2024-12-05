@@ -1,9 +1,12 @@
+# main -> controller -> service -> model -> repository-> database
 from typing import Union 
 from fastapi import FastAPI  #FastAPI 서버
 import uvicorn #main 함수로 uvicorn 자동 실행 
+
 from app.mongodb.mongobd import MongoClient #MongoDB Client전용 URI 
 
 
+### app ###
 app = FastAPI() #app 이란 변수에 FastAPI 서버 할당
 mongocilent = MongoClient() #MongoDB 
 
