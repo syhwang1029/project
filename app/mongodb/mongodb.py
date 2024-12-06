@@ -6,3 +6,5 @@ from pymongo import MongoClient # MongoDB 연동
 # MongoDB Client 전용 URI
 mongodb_uri = "mongodb://localhost:27017/"
 client = MongoClient(mongodb_uri)
+
+db = client #mongodb uri를 db 객체에 저장
