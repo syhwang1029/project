@@ -1,3 +1,3 @@
 print("test")
 
-# main -> controller -> service -> model -> repository-> database
+# main -> controller(router) -> service -> model -> repository(dao) -> database
