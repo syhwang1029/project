@@ -5,9 +5,7 @@ from pymongo import MongoClient
 
 MONGO_URI = "mongodb://localhost:27017/" # MongoDB Client 전용 URI 
 client = MongoClient(MONGO_URI )# MongoDB Client 생성 
-
-db = client["database"] #database 선택
-
+# -> 각 db는 repository에서 선택함
 
 # 그외 참고 
 # mongodb 연결
