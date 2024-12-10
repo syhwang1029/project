@@ -1,7 +1,7 @@
-# 전체 흐름 : main -> controller(router) -> service -> model -> repository(dao) -> database
+# 전체 흐름 : main -> controller(router) -> service -> model -> repository(dao) -> database(mongodb)
 from fastapi import FastAPI  #FastAPI 서버 #의존성 주입
 import uvicorn #main 함수로 uvicorn 자동 실행 
-from app.service import user_service #user 라우팅
+from app.controller import user_controller #user 라우팅
                     # import는 디렉토리명으로 해야함
 
 
@@ -28,7 +28,7 @@ app = FastAPI() #app 인스턴스에 FastAPI 서버 할당
 #     return {"item_id": item_id}
 
 ## user ##
-app.include_router(user_service.router)
+app.include_router(user_controller.router)
 
 ### FastAPI 서버 ####
 if __name__ == "__main__": # FastAPI 서버 자동 실행
