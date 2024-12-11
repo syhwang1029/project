@@ -17,13 +17,9 @@ from bson import json_util
 from fastapi import APIRouter # router 
 # 라우터 참고
 # https://wikidocs.net/176226
-
-# from app.model.user import User
-
-from app.repository.user_repository import db #mongodb client 정보
+from app.repository.user_repository import collection #mongodb client 정보
 
 router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (routing)
-    # tags=['user'],
     prefix="/users"
 )
 
@@ -33,8 +29,7 @@ router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (rout
 # @rouetr.get = @app.get 
 @router.get("/user/") # get : 생성
 async def read_user():
-    #async def read_user(user:User):
-    user = db["user"].find() #collection 선택 
+    user = collection.find() #collection 선택 
     # db read 명령어
     return JSONResponse(content=json_util.dumps(list(user)), 
                         media_type="application/json")
@@ -44,7 +39,7 @@ async def read_user():
 # @router.post = @app.post
 @router.post("/user/") # post :생성
 async def create_user(user: dict): #dict(딕셔너리) 자료형 => {key:value} 
-    db["user"].insert_one(user) #collection 선택 # db create 명령어 
+    collection.insert_one(user) #collection 선택 # db create 명령어 
     return JSONResponse(content=json_util.dumps({"message":"생성 성공!"}),
                         media_type="application/json")
 
@@ -52,7 +47,7 @@ async def create_user(user: dict): #dict(딕셔너리) 자료형 => {key:value}
 # @router.put = @app.put    
 @router.put ("/user/{user_id}") # put : 수정
 async def update_user(user_id: str, user: dict): 
-    db["user"].update_one({"_id": user_id}, {"$set": user})  #collection 선택 
+    collection.update_one({"_id": user_id}, {"$set": user})  #collection 선택 
                 # db update 명령어
     return JSONResponse(content=json_util.dumps({"message":"수정 성공!"}),
                         media_type="application/json") #고객 정보 변경에 따른 알림 메세지
@@ -61,7 +56,7 @@ async def update_user(user_id: str, user: dict):
 # @router.delete = @app.delete 
 @router.delete("/user/{user_id}") # delete : 삭제
 async def delete_user(user_id : str):
-    db["user"].delete_one({"_id": user_id})
+    collection.delete_one({"_id": user_id})
     # db delete 명령어
     return JSONResponse(content={"message":"삭제 성공!"},
                         media_type="application/json")
