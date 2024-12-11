@@ -1,6 +1,6 @@
 #user router
     
-from fastapi.responses import JSONResponse 
+# from fastapi.responses import JSONResponse 
 # JSONResponse : 
 # response(응답)를 커스터마이징(고객의 요구에 따른 대응)하여 전달하고 싶을때, 메세지로 전달
 # JSONResponse 설명
@@ -17,49 +17,38 @@ from bson import json_util
 from fastapi import APIRouter # router 
 # 라우터 참고
 # https://wikidocs.net/176226
-from app.repository.user_repository import collection #mongodb client 정보
+# from app.repository.user_repository import collection #mongodb client 정보
+from app.service.user_service import UserService
 
 router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (routing)
     prefix="/users"
 )
-
+service = UserService
 
 ## user ##
 #1. 조회 (read)
 # @rouetr.get = @app.get 
-@router.get("/user/") # get : 생성
+@router.get("/user/") # get : 조회
 async def read_user():
-    user = collection.find() #collection 선택 
-    # db read 명령어
-    return JSONResponse(content=json_util.dumps(list(user)), 
-                        media_type="application/json")
-                        # media_typ : request body data의 형식
-                        # json 
+    return service.read_user()
+
 #2. 생성 (create)
 # @router.post = @app.post
-@router.post("/user/") # post :생성
-async def create_user(user: dict): #dict(딕셔너리) 자료형 => {key:value} 
-    collection.insert_one(user) #collection 선택 # db create 명령어 
-    return JSONResponse(content=json_util.dumps({"message":"생성 성공!"}),
-                        media_type="application/json")
+@router.post("/user/") # post : 생성
+async def create_user(): #dict(딕셔너리) 자료형 => {key:value} 
+    return service.create_user()
 
 #3. 수정 (update)
 # @router.put = @app.put    
-@router.put ("/user/{user_id}") # put : 수정
-async def update_user(user_id: str, user: dict): 
-    collection.update_one({"_id": user_id}, {"$set": user})  #collection 선택 
-                # db update 명령어
-    return JSONResponse(content=json_util.dumps({"message":"수정 성공!"}),
-                        media_type="application/json") #고객 정보 변경에 따른 알림 메세지
+@router.put("/user/{user_id}") # put : 수정
+async def update_user(): 
+    return service.update_user()
 
 # 4. 삭제 (delete)
 # @router.delete = @app.delete 
 @router.delete("/user/{user_id}") # delete : 삭제
 async def delete_user(user_id : str):
-    collection.delete_one({"_id": user_id})
-    # db delete 명령어
-    return JSONResponse(content={"message":"삭제 성공!"},
-                        media_type="application/json")
+    return service.delete_user()
 
 
 
