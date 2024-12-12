@@ -25,7 +25,7 @@ from app.model.user import User #user model
 
 
 router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (routing)
-    prefix="/usersrouter"
+    prefix="/users"
 )
 
 service = UserService() # user service 객체
@@ -33,7 +33,7 @@ service = UserService() # user service 객체
 ## user ##
 #1. 조회 (read)
 # @rouetr.get = @app.get 
-@router.get("/user/") # get : 조회
+#@router.get("/user/") # get : 조회
 async def read_user():
     return service.read_service()
 
@@ -51,7 +51,7 @@ async def update_user(user_id: User):
 
 # 4. 삭제 (delete)
 # @router.delete = @app.delete 
-@router.delete("/user/{user_id}") # delete : 삭제
+#@router.delete("/user/{user_id}") # delete : 삭제
 async def delete_user(user_id:  User):
     return service.delete_service(user_id)
 
