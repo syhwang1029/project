@@ -18,7 +18,7 @@ class UserRepository:
         data = dict(data) # dict = {key:value} => json 객체
         response = collection.insert_one(data) # response(응답) 
                         # db create 명령어 
-        return str(response.inserted_id), id #response : 등록 id
+        return str(response.inserted_id) #response : 등록 id
                 # id 지정
 
     # Mongodb 명령어 참고 
@@ -29,13 +29,13 @@ class UserRepository:
                     # db read 명령어
         data = [] # List 초기화
         for user in response:
-            user["_id"] = str(user["_id"]) # "_id"(ObjectId)로 user 검색 
+            user["id"] = str(user["id"]) # "_id"(ObjectId)로 user 검색 
             data.append(user) # append : 데이터 추가
         return data 
 # 3. 수정 (update)
     def update_repository(self, data): # user 수정
         # data["_id"] = ObjectId(data["_id"])
-        response = collection.update_one({"email": data["email"]},
+        response = collection.update_one({"id": data["id"]},
                                         {"$set": data})
                                 #email로 User 변경
                                 # db update 명령어
