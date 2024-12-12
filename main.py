@@ -1,4 +1,4 @@
-# 전체 흐름 : main -> controller(router) -> service -> model -> repository(dao) -> database(mongodb)
+# 전체 흐름 : main <- controller(router/domain) <- (model) <- service <- repository(dao) <- database(mongodb)
 from fastapi import FastAPI  #FastAPI 서버 #의존성 주입
 import uvicorn #main 함수로 uvicorn 자동 실행 
 from app.controller import user_controller #user 라우팅
