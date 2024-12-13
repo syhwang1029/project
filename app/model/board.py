@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 # Board 데이터 모델 정의
 class Board(BaseModel):

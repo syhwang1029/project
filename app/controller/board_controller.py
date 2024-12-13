@@ -12,8 +12,29 @@ router = APIRouter( # router = FastAPI()
 
 service = BoardService() # board service 객체
 
-# 게시판
+# 게시판 (board)
 # 1. 생성 (create)
 @router.post("/board") 
-async def create_board(board: Board):
+def create_board(board: Board):
     return service.create_service(board)
+
+# 2. 수정 (update)
+@router.put("/board/{board_id}")
+def update_board(board_id: str, board: Board):
+    return service.update_service(board_id, board)
+
+# 3. 삭제 (deletw)
+@router.delete("/board/{board_id}")
+def delete_board(board: str):
+    return service.delete_service(board)
+
+# 5. 전체 조회 (read)
+@router.get("/board/") # 전체
+def reat_boards():
+    return service.read_service_board()
+
+# 4. 조회 (read) #ObjectId
+@router.get("/board/{board_id}")#ObjectId
+def reat_board(board_id: str):
+    return service.read_service(board_id)
+
