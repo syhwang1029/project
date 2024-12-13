@@ -8,7 +8,7 @@ from app.model.board import Board # board model
 
 # board mongodb
 db = client["database"] # board database 선택 
-collection = db["user"] # board collection 선택
+collection = db["board"] # board collection 선택
 
         
 # 게시판
@@ -16,7 +16,7 @@ collection = db["user"] # board collection 선택
 class BoardRepository:   
         
     #1. 생성 (create)
-    async def create_repository(self, data: dict): #dict = {key, value}
+    def create_repository(self, data: dict): #dict = {key, value}
             datas = collection.insert_one(data) #monnodb data insert 명령어
             return str(datas.inserted_id) #datas => ObjectId 자동 생성    
          
