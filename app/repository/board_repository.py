@@ -1,28 +1,26 @@
 from app.mongodb.mongodb import client #mongodb cilent 연결
-# https://www.tutorialspoint.com/fastapi/fastapi_using_mongodb.htm
-from app.model.board import Board
+from app.model.board import Board # board model
+# crud 참고 1
+# https://dev.to/programadriano/python-3-fastapi-mongodb-p1j
 
-# mongndb 정보들 선택
+# crud 참고 2
+# https://jay-ji.tistory.com/86
+
+# board mongodb
 db = client["database"] # board database 선택 
-collection = db["board"] # board collection 선택
+collection = db["user"] # board collection 선택
 
-
-# schema 참고글
-# https://www.makeuseof.com/rest-api-fastapi-mongodb/
-def board_schema(board) -> dict: # board schema
-        return{
-            "id": str(board["_id"]),
-            "title": board["title"],
-            "author": board["author"]
-            }
         
-def boards_schema(boards) -> list:
-        return [boards_schema(board) for board in boards]
-
+# 게시판
 # board repository
-class BoardRepository:        
+class BoardRepository:   
+        
     #1. 생성 (create)
-    def create_repository(self, board: Board):
-        _id = collection.insert_one(dict(board))
-        board = boards_schema(collection.find({"_id":_id.inserted_id}))
-        return {"board":board}
+    async def create_repository(self, data: dict): #dict = {key, value}
+            datas = collection.insert_one(data) #monnodb data insert 명령어
+            return str(datas.inserted_id) #datas => ObjectId 자동 생성    
+         
+        # insert_id 참고
+        # https://stackoverflow.com/questions/8783753/how-to-get-the-object-id-in-pymongo-after-an-insert
+    
+    
