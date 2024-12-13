@@ -34,26 +34,26 @@ service = UserService() # user service 객체
 #1. 조회 (read)
 # @rouetr.get = @app.get 
 #@router.get("/user/") # get : 조회
-async def read_user():
-    return service.read_service()
+# async def read_user():
+#     return service.read_service()
 
 #2. 생성 (create)
 # @router.post = @app.post
 @router.post("/user/") # post : 생성
-async def create_user(user_data: User): #dict(딕셔너리) 자료형 => {key:value} 
-    return service.create_service(user_data)
+def create_user(user: User): #dict(딕셔너리) 자료형 => {key:value} 
+    return service.create_service(user)
 
-#3. 수정 (update)
+# 3. 수정 (update)
 # @router.put = @app.put    
 @router.put("/user/{user_id}") # put : 수정
-async def update_user(user_id: User): 
-    return service.update_service(user_id)
+async def update_user(user_id: str, user: User): 
+    return service.update_service(user_id, user)
 
 # 4. 삭제 (delete)
 # @router.delete = @app.delete 
-#@router.delete("/user/{user_id}") # delete : 삭제
-async def delete_user(user_id:  User):
-    return service.delete_service(user_id)
+# @router.delete("/user/{user_id}") # delete : 삭제
+# async def delete_user(user_id:  User):
+#     return service.delete_service(user_id)
 
 
 
