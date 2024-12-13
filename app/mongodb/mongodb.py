@@ -4,7 +4,7 @@ from pymongo import MongoClient
 # https://blog.poespas.me/posts/2024/05/29/fastapi-mongodb-crud-with-pymongo/
 
 MONGO_URI = "mongodb://localhost:27017/" # MongoDB Client 전용 URI 
-client = MongoClient(MONGO_URI )# MongoDB Client 생성 
+client = MongoClient(MONGO_URI)# MongoDB Client 생성 
 # -> 각 db는 repository에서 선택함
 
 # 그외 참고 
