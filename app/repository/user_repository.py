@@ -5,17 +5,18 @@
 # https://github.com/accubits/FastAPI-MongoDB 
 
 from bson import ObjectId
-from app.mongodb.mongodb import client # mongodb cilent 연결
+from app.database.database.user_collection import db, collection # mongodb 
 # model 사용 x
 
-# mongndb 정보들 선택
-db = client["database"] # user database 선택 
-collection = db["user"] # user collection 선택
+# class UserRepository 안으로 이동
 
 # 유저 정보
 # user repository 
 class UserRepository:    
- 
+    def __init__(self):
+        self.db =  db #user database
+        self.collection = collection #user colletcion
+        
  # 5. 전체 조회 (read)
     async def read_repository(self): # user 조회
         # 비동기
