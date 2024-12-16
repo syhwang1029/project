@@ -19,13 +19,14 @@ from fastapi import APIRouter
 # https://wikidocs.net/176226
 # from app.repository.user_repository import collection #mongodb client 정보
 
-from app.service.user_service import UserService #user service
-from app.model.user import User #user model
+from app.service.user_service import UserService # user service
+from app.model.user import UserIn #, UserOut # user model
 
 
 
 router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (routing)
-    prefix="/users"
+    prefix="/users", # 경로
+    tags=["user"] # user 태그 
 )
 
 service = UserService() # user service 객체
@@ -40,14 +41,22 @@ service = UserService() # user service 객체
 #2. 생성 (create)
 # @router.post = @app.post
 @router.post("/user/") # post : 생성
-def create_user(user: User): #dict(딕셔너리) 자료형 => {key:value} 
-    return service.create_service(user)
+async def create_user(user: UserIn): # 비동기 
+    return await service.create_service(user)
+        # 의존성 주입
+
+# 5. 일부 조회 (read)
+@router.get("/user/{user_id}")
+async def reat_user_userid(user_id: str):
+    return await service.read_service_userid(user_id)
 
 # 3. 수정 (update)
 # @router.put = @app.put    
+# 비동기
 @router.put("/user/{user_id}") # put : 수정
-async def update_user(user_id: str, user: User): 
-    return service.update_service(user_id, user)
+async def update_user(user_id: str, user: UserIn): 
+    return await service.update_service(user_id, user)
+        # 의존성 주입
 
 # 4. 삭제 (delete)
 # @router.delete = @app.delete 
