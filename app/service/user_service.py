@@ -7,7 +7,12 @@ from app.model.user import UserIn # user model
 # user service
 class UserService:
     def __init__(self): # service가 repository에 의존
+        # init :  class가 호출될 때, 자동으로 사용되는 함수 
+        # self : 객체의 인스턴스 그 자체
         self.repository = UserRepository()
+        # repositor가 자기 자신을 참조하는 매개변수 
+        # init 함수와 self 함수의 설명 
+        # https://www.google.com/search?q=__init__+%ED%95%A8%EC%88%98+%EC%97%AD%ED%95%A0&oq=__init__+%ED%95%A8%EC%88%98+%EC%97%AD%ED%95%A0&gs_lcrp=EgZjaHJvbWUyCQgAEEUYORigATIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigAdIBCjE2MDIzajBqMTWoAgCwAgA&sourceid=chrome&ie=UTF-8
     
     # 5. 전체 조회 (read)
     async def read_service(self): # 조회
