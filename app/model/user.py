@@ -11,7 +11,6 @@ from pydantic import BaseModel, EmailStr # Database 모델의 정의
 
 # User 모델 데이터 정의 
 class User(BaseModel): # 조회, 생성
-    username: str # 이름 #token 구분
     email: EmailStr # 이메일
                     #user@example.com
     # EmailStr 다운로드 
@@ -22,6 +21,7 @@ class User(BaseModel): # 조회, 생성
 # https://fastapi.tiangolo.com/ko/tutorial/extra-models/#reduce-duplication
 # 입력 UserIn 
 class UserIn(User): # 리캡 : User 클래스 상속받음 
+    username: str # 이름 #token 구분
     password: str # 비밀번호 포함 
     # 그외 그대로 사용
 
