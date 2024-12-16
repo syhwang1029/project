@@ -14,7 +14,21 @@ collection = db["user"] # user collection 선택
 
 # 유저 정보
 # user repository 
-class UserRepository: 
+class UserRepository:    
+ 
+ # 5. 일부 조회 (read)
+    async def read_repository_userid(self, user_id: str):
+        users = collection.find_one({"_id":ObjectId(user_id)}) # objectId = user_id 지정
+        users["_id"] = str(users["_id"]) # str으로 수정
+        # ObjectID 참고 
+        # https://github.com/accubits/FastAPI-MongoDB
+        return users
+ 
+ # 4. 전체 조회 (read)
+    async def read_repository(self): # user 조회
+        # 비동기
+        return collection.find()
+    
 # 1. 생성 (create)   
     # 비동기
     async def create_repository(self, user: dict)->dict: # user 생성
@@ -27,31 +41,17 @@ class UserRepository:
     # Mongodb 명령어 참고 
     # https://kimdoky.github.io/python/2018/12/03/python-nosql/
     
-# 5. 일부 조회 (read)
-    async def read_repository_userid(self, user_id: str):
-        users = collection.find_one({"_id":ObjectId(user_id)})
-        return users
-    
-# # 2. 조회 (read)
-#     def read_repository(self): # user 조회
-#         response = collection.find()
-#                     # db read 명령어
-#         data = [] # List 초기화
-#         for user in response:
-#             user["_id"] = str(user["_id"]) # "_id"(ObjectId)로 user 검색 
-#             data.append(user) # append : 데이터 추가
-#         return data 
-
-# 3. 수정 (update)
+# 2. 수정 (update)
     async def update_repository(self, user_id: str, user: dict): # user 수정
-        users = collection.update_one({"_id": ObjectId(user_id)},# ObjectId 지정 
+        users = collection.update_one({"_id": ObjectId(user_id)}, # objectId로 수정 
                                         {"$set": user})
-                                # db update 명령어
-        return users
-# 4. 삭제 (dlelte)
-#     def delete_repository(self, email): # user 삭제
-#         response = collection.delete_one({"email":email})
-#                                             #email로 User 삭제
-#         # db delete 명령어
-#         return response.deleted_count
-
+                            # db update 명령어                  
+        return users.modified_count # query 실행 후, doc 값이 변하면 modified_count = 1
+    # MongoDB 명령어 참고
+    # https://velog.io/@hosunghan0821/DBs-MongoDB-%EA%B8%B0%EB%B3%B8%EC%BF%BC%EB%A6%AC
+    
+# 3. 삭제 (dlelte)
+    async def delete_repository(self, user_id: str): # user 삭제
+        users = collection.delete_one({"_id": ObjectId(user_id)}) # objectId로 삭제
+                         # db delete 명령어
+        return users.deleted_count

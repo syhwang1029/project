@@ -14,13 +14,14 @@
 # https://velog.io/@chayezo/MongoDB-JSON-vs.-BSON
 
 from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 # from fastapi.responses import JSONResponse # router 
 # 라우터 참고
 # https://wikidocs.net/176226
 # from app.repository.user_repository import collection #mongodb client 정보
 
 from app.service.user_service import UserService # user service
-from app.model.user import UserIn #, UserOut # user model
+from app.model.user import UserIn, UserOut # user model
 
 
 
@@ -31,38 +32,46 @@ router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (rout
 
 service = UserService() # user service 객체
 
+
 ## user ##
-#1. 조회 (read)
+# 5. 전체 조회 (read)
 # @rouetr.get = @app.get 
-#@router.get("/user/") # get : 조회
-# async def read_user():
-#     return service.read_service()
+@router.get("/user/") # get : 조회
+async def read_user():
+    # 비동기 
+    return await service.read_service()
+            # 의존성 주입
+
+# 4. 일부 조회 (read)
+@router.get("/user/{user_id}")
+async def reat_user_userid(user_id: str):
+    # 비동기
+    return await service.read_service_userid(user_id)
+            # 의존성 주입
+
 
 #2. 생성 (create)
 # @router.post = @app.post
 @router.post("/user/") # post : 생성
-async def create_user(user: UserIn): # 비동기 
+async def create_user(user: UserIn): # 입력 model UserIn
+    # 비동기 
     return await service.create_service(user)
         # 의존성 주입
 
-# 5. 일부 조회 (read)
-@router.get("/user/{user_id}")
-async def reat_user_userid(user_id: str):
-    return await service.read_service_userid(user_id)
-
 # 3. 수정 (update)
 # @router.put = @app.put    
-# 비동기
 @router.put("/user/{user_id}") # put : 수정
 async def update_user(user_id: str, user: UserIn): 
+    # 비동기 
     return await service.update_service(user_id, user)
         # 의존성 주입
 
 # 4. 삭제 (delete)
 # @router.delete = @app.delete 
-# @router.delete("/user/{user_id}") # delete : 삭제
-# async def delete_user(user_id:  User):
-#     return service.delete_service(user_id)
+@router.delete("/user/{user_id}") # delete : 삭제
+async def delete_user(user_id: str):
+    return await service.delete_service(user_id)
+    # 의존성 주입
 
 
 
