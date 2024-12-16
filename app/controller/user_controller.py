@@ -50,7 +50,7 @@ async def reat_user_userid(user_id: str):
             # 의존성 주입
 
 
-#2. 생성 (create)
+# 1. 생성 (create)
 # @router.post = @app.post
 @router.post("/user/", tags=["User Create"]) # post : 생성
 async def create_user(user: UserIn): # 입력 model UserIn
@@ -58,7 +58,7 @@ async def create_user(user: UserIn): # 입력 model UserIn
     return await service.create_service(user)
         # 의존성 주입
 
-# 3. 수정 (update)
+# 2. 수정 (update)
 # @router.put = @app.put    
 @router.put("/user/{user_id}", tags=["User UpDate"]) # put : 수정
 async def update_user(user_id: str, user: UserIn): 
@@ -66,7 +66,7 @@ async def update_user(user_id: str, user: UserIn):
     return await service.update_service(user_id, user)
         # 의존성 주입
 
-# 4. 삭제 (delete)
+# 3. 삭제 (delete)
 # @router.delete = @app.delete 
 @router.delete("/user/{user_id}", tags=["User Delete"]) # delete : 삭제
 async def delete_user(user_id: str):
