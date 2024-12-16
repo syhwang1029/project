@@ -1,5 +1,5 @@
 # user dao
-# db 관련 조건 . 및저장 
+# db 관련 조건문(mongodb 명령어) 및 data 저장 
 
 # crud 참고
 # https://github.com/accubits/FastAPI-MongoDB 
@@ -16,18 +16,26 @@ collection = db["user"] # user collection 선택
 # user repository 
 class UserRepository:    
  
- # 5. 일부 조회 (read)
+ # 5. 전체 조회 (read)
+    async def read_repository(self): # user 조회
+        # 비동기
+        users = collection.find() # db find 명령어
+        userlist = [] # user list 초기화
+        for user in users: #user 객체에 db find 명령어 대입 
+            user["_id"] = str(user["_id"]) # user 객체에 ObjectId 대입
+            userlist.append(user) # userlist에 데이터 추가
+        return userlist
+        # 조회 참고
+        # https://github.com/accubits/FastAPI-MongoDB
+ 
+ # 4. 일부 조회 (read)
     async def read_repository_userid(self, user_id: str):
         users = collection.find_one({"_id":ObjectId(user_id)}) # objectId = user_id 지정
         users["_id"] = str(users["_id"]) # str으로 수정
         # ObjectID 참고 
         # https://github.com/accubits/FastAPI-MongoDB
         return users
- 
- # 4. 전체 조회 (read)
-    async def read_repository(self): # user 조회
-        # 비동기
-        return collection.find()
+
     
 # 1. 생성 (create)   
     # 비동기

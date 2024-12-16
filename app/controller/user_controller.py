@@ -26,8 +26,7 @@ from app.model.user import UserIn, UserOut # user model
 
 
 router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (routing)
-    prefix="/users", # 경로
-    tags=["user"] # user 태그 
+    prefix="/users" # 경로
 )
 
 service = UserService() # user service 객체
@@ -36,14 +35,15 @@ service = UserService() # user service 객체
 ## user ##
 # 5. 전체 조회 (read)
 # @rouetr.get = @app.get 
-@router.get("/user/") # get : 조회
+@router.get("/user/",tags=["ALL User Read"]) # get : 조회
+                    # 태그로 제목 표시
 async def read_user():
     # 비동기 
     return await service.read_service()
             # 의존성 주입
 
 # 4. 일부 조회 (read)
-@router.get("/user/{user_id}")
+@router.get("/user/{user_id}", tags=["UserID Read"])
 async def reat_user_userid(user_id: str):
     # 비동기
     return await service.read_service_userid(user_id)
@@ -52,7 +52,7 @@ async def reat_user_userid(user_id: str):
 
 #2. 생성 (create)
 # @router.post = @app.post
-@router.post("/user/") # post : 생성
+@router.post("/user/", tags=["User Create"]) # post : 생성
 async def create_user(user: UserIn): # 입력 model UserIn
     # 비동기 
     return await service.create_service(user)
@@ -60,7 +60,7 @@ async def create_user(user: UserIn): # 입력 model UserIn
 
 # 3. 수정 (update)
 # @router.put = @app.put    
-@router.put("/user/{user_id}") # put : 수정
+@router.put("/user/{user_id}", tags=["User UpDate"]) # put : 수정
 async def update_user(user_id: str, user: UserIn): 
     # 비동기 
     return await service.update_service(user_id, user)
@@ -68,7 +68,7 @@ async def update_user(user_id: str, user: UserIn):
 
 # 4. 삭제 (delete)
 # @router.delete = @app.delete 
-@router.delete("/user/{user_id}") # delete : 삭제
+@router.delete("/user/{user_id}", tags=["User Delete"]) # delete : 삭제
 async def delete_user(user_id: str):
     return await service.delete_service(user_id)
     # 의존성 주입

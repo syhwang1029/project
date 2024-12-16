@@ -1,6 +1,5 @@
-from typing import List
 from app.repository.user_repository import UserRepository # user repository
-from app.model.user import UserIn, UserOut # user model 
+from app.model.user import UserIn # user model 
 
 # service 의존성 주입 참고 
 # https://the-boxer.tistory.com/63
