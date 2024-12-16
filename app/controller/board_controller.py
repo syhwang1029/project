@@ -7,7 +7,8 @@ from app.model.board import Board # board model
 
 
 router = APIRouter( # router = FastAPI()
-    prefix="/boards"  # board routing 
+    prefix="/boards",  # board routing 
+    tags=["Board"]
 )
 
 service = BoardService() # board service 객체
@@ -18,15 +19,18 @@ service = BoardService() # board service 객체
 def reat_boards():
     return service.read_service_board()
 
-# 4. 조회 (read) #ObjectId
+# 4. 일부 조회 (read) #ObjectId
 @router.get("/board/{board_id}")#ObjectId
 def reat_board(board_id: str):
     return service.read_service(board_id)
 
+
 # 1. 생성 (create)
 @router.post("/board/") 
-def create_board(board: Board):
-    return service.create_service(board)
+async def create_board(board: Board):
+    # 비동기 
+    return await service.create_service(board)
+
 
 # 2. 수정 (update)
 @router.put("/board/{board_id}")
