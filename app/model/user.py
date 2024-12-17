@@ -29,11 +29,8 @@ class UserIn(User):
 class UserOut(User): # 리캡 : User 클래스 상속받음 
      pass # 비밀번호 미포함
  
-# Updata
+# Update
 class UpUser(BaseModel): 
-     username: str | None = None # 선택값 = Optional = 기본값 = None 
-     email: EmailStr | None = None
-     password: str | None = None
-# model Nono 참고 - Python 3.10 
-# https://fastapi.tiangolo.com/ko/tutorial/body-multiple-params/#path-query     
-     
+     username: str # 선택값 = Optional = 기본값 = None 
+     email: EmailStr 
+     password: str  

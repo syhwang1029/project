@@ -1,3 +1,4 @@
+from typing import Optional
 from app.repository.user_repository import UserRepository # user repository
 from app.model.user import UpUser, UserIn # user model 
 
@@ -35,7 +36,7 @@ class UserService:
             # 의존성 주입
                     
     # 2. 수정 (update)
-    async def update_service(self, user_id: str, user: UpUser | None = None): # 입력 model UserIn
+    async def update_service(self, user_id: str, user: Optional[UpUser] = None): # 입력 model UserIn
         # 비동기  
         user = dict(user)
         return await self.repository.update_repository(user_id, user)

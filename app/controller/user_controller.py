@@ -13,6 +13,7 @@
 # bson과 json의 차이점
 # https://velog.io/@chayezo/MongoDB-JSON-vs.-BSON
 
+from typing import Optional
 from fastapi import APIRouter
 
 # from fastapi.responses import JSONResponse # router 
@@ -65,10 +66,12 @@ async def create_user(user: UserIn): # 입력 model UserIn
 # @router.put = @app.put //전체 
 # @routre.patch = @app.patch //일부
 @router.put("/user/{user_id}") # patch : 일부 수정
-async def update_user(user_id: str, user: UpUser | None = None): # 선택값 설정, 기본값 = None
+async def update_user(user_id: str, user: Optional[UpUser] = None): # 선택값 설정, 기본값 = None
     # 비동기                    
     return await service.update_service(user_id, user)
         # 의존성 주입
+# Optional 참고       
+# https://zambbon.tistory.com/entry/FastAPI-Query-Parameters-08
 
 # 3. 삭제 (delete)
 # @router.delete = @app.delete 
