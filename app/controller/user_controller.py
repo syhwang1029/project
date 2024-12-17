@@ -14,7 +14,6 @@
 # https://velog.io/@chayezo/MongoDB-JSON-vs.-BSON
 
 from fastapi import APIRouter
-from fastapi.responses import JSONResponse
 # from fastapi.responses import JSONResponse # router 
 # 라우터 참고
 # https://wikidocs.net/176226
@@ -54,16 +53,18 @@ async def reat_user_userid(user_id: str):
 # 1. 생성 (create)
 # @router.post = @app.post
 @router.post("/user/") # post : 생성
+  # path parameter (경로 파라미터)
 async def create_user(user: UserIn): # 입력 model UserIn
     # 비동기 
+        #query parameter 
     return await service.create_service(user)
         # 의존성 주입
 
 # 2. 수정 (update)
 # @router.put = @app.put    
 @router.put("/user/{user_id}") # put : 수정
-async def update_user(user_id: str, user: UserIn): 
-    # 비동기 
+async def update_user(user_id: str, user: UserIn): # 선택값 설정, 기본값 = None
+    # 비동기                                        
     return await service.update_service(user_id, user)
         # 의존성 주입
 
