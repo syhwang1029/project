@@ -31,6 +31,6 @@ class UserOut(User): # 리캡 : User 클래스 상속받음
  
 # Update
 class UpUser(BaseModel): 
-     username: str # 선택값 = Optional = 기본값 = None 
-     email: EmailStr 
-     password: str  
+     username: Optional[str] = None # 선택값 = Optional = 기본값 = None 
+     email: Optional[EmailStr] = None
+     password: Optional[str] = None  

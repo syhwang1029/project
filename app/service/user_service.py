@@ -36,7 +36,7 @@ class UserService:
             # 의존성 주입
                     
     # 2. 수정 (update)
-    async def update_service(self, user_id: str, user: Optional[UpUser] = None): # 입력 model UserIn
+    async def update_service(self, user_id: str, user: UpUser): # 입력 model UserIn
         # 비동기  
         user = dict(user)
         return await self.repository.update_repository(user_id, user)
