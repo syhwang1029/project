@@ -34,14 +34,14 @@ class UserService:
         return await self.repository.create_repository(user) 
             # 의존성 주입
                     
-    # 3. 수정 (update)
-    async def update_service(self, user_id: str, user: UpUser): # 입력 model UserIn
+    # 2. 수정 (update)
+    async def update_service(self, user_id: str, user: UpUser | None = None): # 입력 model UserIn
         # 비동기  
         user = dict(user)
         return await self.repository.update_repository(user_id, user)
             # 의존성 주입
     
-    # 4. 삭제 (delete)
+    # 3. 삭제 (delete)
     async def delete_service(self, user_id: str): 
         # 비동기 
         return await self.repository.delete_repository(user_id)

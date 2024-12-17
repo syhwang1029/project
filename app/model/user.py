@@ -25,16 +25,15 @@ class User(BaseModel): # 조회, 생성
 class UserIn(User):
      password: str # 비밀번호 포함 
      
-                   
-
-
 # 출력 UserOut 
 class UserOut(User): # 리캡 : User 클래스 상속받음 
      pass # 비밀번호 미포함
  
 # Updata
 class UpUser(BaseModel): 
-     username:  Optional[str] = None   # 선택값 = Optional, 기본값 = None 
-     email: Optional[EmailStr] = None
-     password: Optional[str] = None
+     username: str | None = None # 선택값 = Optional = 기본값 = None 
+     email: EmailStr | None = None
+     password: str | None = None
+# model Nono 참고 - Python 3.10 
+# https://fastapi.tiangolo.com/ko/tutorial/body-multiple-params/#path-query     
      
