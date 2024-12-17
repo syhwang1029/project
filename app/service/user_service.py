@@ -1,5 +1,5 @@
 from app.repository.user_repository import UserRepository # user repository
-from app.model.user import UserIn # user model 
+from app.model.user import UpUser, UserIn # user model 
 
 # service 의존성 주입 참고 
 # https://the-boxer.tistory.com/63
@@ -34,10 +34,10 @@ class UserService:
         return await self.repository.create_repository(user) 
             # 의존성 주입
                     
-    # 3. 수정 (uodate)
-    async def update_service(self, user_id: str, user: UserIn): # 입력 model UserIn
+    # 3. 수정 (update)
+    async def update_service(self, user_id: str, user: UpUser): # 입력 model UserIn
         # 비동기  
-        user = dict(user) # user : dict
+        user = dict(user)
         return await self.repository.update_repository(user_id, user)
             # 의존성 주입
     

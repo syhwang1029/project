@@ -1,6 +1,7 @@
 # user schema
 
-from pydantic import BaseModel, EmailStr, Field # Database 모델의 정의
+from typing import Optional # 선택적
+from pydantic import BaseModel, EmailStr # Database 모델의 정의
 
 # 타입 검증, 오류 관리
 # https://mobicon.tistory.com/627
@@ -17,17 +18,23 @@ class User(BaseModel): # 조회, 생성
     # EmailStr 다운로드 
     # pip install 'pydantic[email]'
     # https://docs.pydantic.dev/latest/install/
-    password: str # 비밀번호 포함 
-    
+   
 # model 리캡 참고
 # https://fastapi.tiangolo.com/ko/tutorial/extra-models/#reduce-duplication
 # 입력 UserIn 
-class UserIn(User):  # 리캡 : User 클래스 상속받음 
-    password: str  # 비밀번호 포함 
-    
-                    # 선택값 설정, 기본값 = None
-# https://www.joonas.io/fastapi/ko/tutorial/body-updates/
+class UserIn(User):
+     password: str # 비밀번호 포함 
+     
+                   
+
 
 # 출력 UserOut 
-class UserOut(User):
+class UserOut(User): # 리캡 : User 클래스 상속받음 
      pass # 비밀번호 미포함
+ 
+# Updata
+class UpUser(BaseModel): 
+     username:  Optional[str] = None   # 선택값 = Optional, 기본값 = None 
+     email: Optional[EmailStr] = None
+     password: Optional[str] = None
+     

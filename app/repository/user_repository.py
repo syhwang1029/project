@@ -4,16 +4,14 @@
 # crud 참고
 # https://github.com/accubits/FastAPI-MongoDB 
 
-from bson import ObjectId
+from bson.objectid import ObjectId
 from app.database.database.user_collection import db, collection # mongodb 
 # model 사용 x
 
-# class UserRepository 안으로 이동
-
 # 유저 정보
 # user repository 
-class UserRepository:    
-    def __init__(self):
+class UserRepository:   
+    def __init__(self): #mongodb 정보
         self.db =  db #user database
         self.collection = collection #user colletcion
         
@@ -40,7 +38,7 @@ class UserRepository:
     
 # 1. 생성 (create)   
     # 비동기
-    async def create_repository(self, user: dict)->dict: # user 생성
+    async def create_repository(self, user: dict): # user 생성
         # collection에서만 dict 상속 가능함
         users = collection.insert_one(user) 
                         # db create 명령어 
@@ -50,11 +48,11 @@ class UserRepository:
     # Mongodb 명령어 참고 
     # https://kimdoky.github.io/python/2018/12/03/python-nosql/
     
-# 2. 수정 (update)
+# 2. 수정 (update) 
     async def update_repository(self, user_id: str, user: dict): # user 수정
         users = collection.update_one({"_id": ObjectId(user_id)}, # objectId로 수정 
                                         {"$set": user})
-                            # db update 명령어                  
+                            # db update 명령어                
         return users.modified_count # query 실행 후, doc 값이 변하면 modified_count = 1
     # MongoDB 명령어 참고
     # https://velog.io/@hosunghan0821/DBs-MongoDB-%EA%B8%B0%EB%B3%B8%EC%BF%BC%EB%A6%AC
@@ -63,4 +61,4 @@ class UserRepository:
     async def delete_repository(self, user_id: str): # user 삭제
         users = collection.delete_one({"_id": ObjectId(user_id)}) # objectId로 삭제
                          # db delete 명령어
-        return users.deleted_count
+        return users.deleted_count 
