@@ -38,7 +38,6 @@ service = UserService() # user service 객체
 # 5. 전체 조회 (read)
 # @rouetr.get = @app.get 
 @router.get("/user/") # get : 조회
-                    # 태그로 제목 표시
 async def read_user():
     # 비동기 
     return await service.read_service()
@@ -63,9 +62,9 @@ async def create_user(user: UserIn): # 입력 model UserIn
         # 의존성 주입
 
 # 2. 수정 (update)
-# @router.put = @app.put //전체 
-# @routre.patch = @app.patch //일부
-@router.put("/user/{user_id}") # patch : 일부 수정
+# @router.put = @app.put //전체 수정
+# @routre.patch = @app.patch //일부 수정
+@router.put("/user/{user_id}") 
 async def update_user(user_id: str, user: UpUser): # 선택값 설정, 기본값 = None
     # 비동기                    
     return await service.update_service(user_id, user)
