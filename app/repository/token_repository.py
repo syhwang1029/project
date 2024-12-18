@@ -21,10 +21,10 @@ REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 새로고침 만료 시간
 ALGORITHM = "HS256" # 알고리즘
 
 # 비밀 유지
-JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']   # jwt 비밀 키
+JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY'] # jwt 비밀 키
 JWT_REFRESH_SECRET_KEY = os.environ['JWT_REFRESH_SECRET_KEY'] # 새로고침 jwt 비밀 키
 
-
+# 유저 토큰
 # token repository
 class TokenRepository:
 # 일반 비밀번호 -> 데이터베이스에 안전하게 저장할 수 있는 해시 반환                            
