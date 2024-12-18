@@ -13,7 +13,6 @@
 # bson과 json의 차이점
 # https://velog.io/@chayezo/MongoDB-JSON-vs.-BSON
 
-from typing import Optional
 from fastapi import APIRouter
 
 # from fastapi.responses import JSONResponse # router 
@@ -23,7 +22,6 @@ from fastapi import APIRouter
 
 from app.service.user_service import UserService # user service
 from app.model.user import UpUser, UserIn, UserOut # user model
-
 
 
 router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (routing)
@@ -55,7 +53,7 @@ async def reat_user_userid(user_id: str):
 # @router.post = @app.post
 @router.post("/user/") # post : 생성
   # path parameter (경로 파라미터)
-async def create_user(user: UserIn): # 입력 model UserIn
+async def create_user(user: UserIn) -> UserOut: # 입력 model UserIn
     # 비동기 
         #query parameter 
     return await service.create_service(user)

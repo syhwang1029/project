@@ -6,15 +6,20 @@
 
 from bson.objectid import ObjectId
 from app.database.database.user_collection import db, collection # mongodb 
+# from app.repository.token_repository import TokenRepository # jwt repository
 # model 사용 x
+
 
 # 유저 정보
 # user repository 
 class UserRepository:   
     def __init__(self): #mongodb 정보
         self.db =  db #user database
-        self.collection = collection #user colletcion
+        self.collection = collection # user colletcion
         
+        #self.token = TokenRepository() #token repository
+
+      
  # 5. 전체 조회 (read)
     async def read_repository(self): # user 조회
         # 비동기
@@ -34,11 +39,10 @@ class UserRepository:
         # ObjectID 참고 
         # https://github.com/accubits/FastAPI-MongoDB
         return users
-
     
 # 1. 생성 (create)   
     # 비동기
-    async def create_repository(self, user: dict): # user 생성
+    async def create_repository(self, user: dict) -> str: # user 생성
         # collection에서만 dict 상속 가능함
         users = collection.insert_one(user) 
                         # db create 명령어 
@@ -49,7 +53,7 @@ class UserRepository:
     # https://kimdoky.github.io/python/2018/12/03/python-nosql/
     
 # 2. 수정 (update) 
-    async def update_repository(self, user_id: str, user: dict): # user 수정
+    async def update_repository(self, user_id: str, user: dict) -> dict: # user 수정
         users = collection.update_one({"_id": ObjectId(user_id)}, # objectId로 수정 
                                         {"$set": user})
                             # db update 명령어                

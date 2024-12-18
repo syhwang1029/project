@@ -22,6 +22,7 @@ class User(BaseModel): # 조회, 생성
 # model 리캡 참고
 # https://fastapi.tiangolo.com/ko/tutorial/extra-models/#reduce-duplication
 
+# token
 # 입력 UserIn 
 class UserIn(User):
      password: str # 비밀번호 포함 
@@ -35,7 +36,3 @@ class UpUser(BaseModel):
      username: Optional[str] = None # 선택값 = Optional = 기본값 = None 
      email: Optional[EmailStr] = None
      password: Optional[str] = None  
-
-# token
-class UserInDB(User):
-     hashed_password: str
