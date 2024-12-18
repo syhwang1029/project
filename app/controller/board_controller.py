@@ -39,6 +39,7 @@ async def create_board(board: Board):
 # 2. 수정 (update)
 @router.put("/board/{board_id}")
 async def update_board(board_id: str, board: UpBoard): #update model 추가
+    board = dict(board)
     # 비동기
     return await service.update_service(board_id, board)
         # 의존성 주입

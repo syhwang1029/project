@@ -16,3 +16,4 @@ class Board(BaseModel):
 class UpBoard(BaseModel):
     title: Optional[str] = None # 선택
     content: Optional[str] = None # 선택
+    # email은 필수로 생략 => 로그인 후 작성하는 것으로 가정함
