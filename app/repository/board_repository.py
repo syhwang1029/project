@@ -37,9 +37,11 @@ class BoardRepository:
         # 비동기                              
             boards = collection.insert_one(board)
                      # monnodb data insert 명령어
-            return str(boards.inserted_id) # ObjectId <= update, delete때 사용  
-    
+            return str(boards.inserted_id) # ObjectId 자동 생성 
+                            # boardid <= update, delete 때 특정조건으로 사용 
         # insert_id 설명 
+        # https://kimdoky.github.io/python/2018/12/03/python-nosql/
+        
         # ObjectId = RDB Primary key 개념
         # https://stackoverflow.com/questions/8783753/how-to-get-the-object-id-in-pymongo-after-an-insert
         # https://www.inflearn.com/community/questions/697448/inserted-id-%EB%A1%9C-db%EC%97%90-%EA%B0%92%EC%9D%B4-insert%EB%90%98%EC%97%88%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8-%EA%B0%80%EB%8A%A5%ED%95%9C%EB%8D%B0-update%EC%8B%9C%EC%97%90%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%99%95%EC%9D%B8-%EA%B0%80%EB%8A%A5%ED%95%A0%EA%B9%8C%EC%9A%94?srsltid=AfmBOorNfR3e0nGBoB5C0R-9TxHsIY301YjS5OdgNWewX3i5Ie988C-9
