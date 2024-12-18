@@ -1,4 +1,3 @@
-from typing import Optional
 from app.repository.user_repository import UserRepository # user repository
 from app.model.user import UpUser, UserIn # user model 
 
