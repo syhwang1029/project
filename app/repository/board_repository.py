@@ -52,11 +52,11 @@ class BoardRepository:
         # https://damansa1.tistory.com/58
             boards = collection.update_one({"_id": ObjectId(board_id)},  # {field($set):vlaue}
                                         {"$set": board}) 
-                                                # monodb update 명령어
+                                                # monodb update 명령어 
+                                                # 특정 조건(board id) 하나로 수정
         # $set 설명
         # https://www.mongodb.com/ko-kr/docs/v5.0/reference/operator/update/set/
             return boards.modified_count # query 실행 후, doc 값 변경 후 modified_count = 1 
-                    # 특정 조건 update
                     # mongodb 기본 쿼리 참고
                     # https://velog.io/@hosunghan0821/DB-MongoDB-%EA%B8%B0%EB%B3%B8%EC%BF%BC%EB%A6%AC
     
@@ -67,4 +67,5 @@ class BoardRepository:
             # 비동기
             boards = collection.delete_one({"_id": ObjectId(board_id)})
                     # mongodb delete 명령어
+                    # 하나만 삭제
             return boards.deleted_count 
