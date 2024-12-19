@@ -53,7 +53,7 @@ async def reat_user_userid(user_id: str):
 # @router.post = @app.post
 @router.post("/user/") # post : 생성
   # path parameter (경로 파라미터)
-async def create_user(user: UserIn) -> UserOut: # 입력 model UserIn
+async def create_user(user: UserIn): # 입력 model UserIn
     # 비동기 
         #query parameter 
     return await service.create_service(user)

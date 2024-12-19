@@ -4,9 +4,9 @@
 # crud 참고
 # https://github.com/accubits/FastAPI-MongoDB 
 
-from bson.objectid import ObjectId
+from bson.objectid import ObjectId # mongodb objectId
 from app.database.database.user_collection import db, collection # mongodb 
-# from app.repository.token_repository import TokenRepository # jwt repository
+from app.token.utillity import Token # jwt utillity
 # model 사용 x
 
 
@@ -17,7 +17,7 @@ class UserRepository:
         self.db =  db #user database
         self.collection = collection # user colletcion
         
-        #self.token = TokenRepository() #token repository
+        self.token = Token() # jwt
 
       
  # 5. 전체 조회 (read)
@@ -42,7 +42,7 @@ class UserRepository:
     
 # 1. 생성 (create)   
     # 비동기
-    async def create_repository(self, user: dict) -> str: # user 생성
+    async def create_repository(self, user: dict): # user 생성
         # collection에서만 dict 상속 가능함
         users = collection.insert_one(user) 
                         # db create 명령어 

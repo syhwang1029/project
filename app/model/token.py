@@ -5,6 +5,3 @@ from pydantic import BaseModel
 class Token(BaseModel):
     access_token: str # secret key
     token_type: str # payload
-    
-class TokenData(BaseModel):
-    username: str | None = None
