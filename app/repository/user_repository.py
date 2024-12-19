@@ -42,7 +42,7 @@ class UserRepository:
     
 # 1. 생성 (create)   
     # 비동기
-    async def create_repository(self, user: dict): # user 생성
+    async def create_repository(self, user: dict) -> str: # user 생성
         # collection에서만 dict 상속 가능함
         users = collection.insert_one(user) 
                         # db create 명령어 
