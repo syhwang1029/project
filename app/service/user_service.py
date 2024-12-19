@@ -38,6 +38,8 @@ class UserService:
         hashed_password =
         return await self.repository.create_repository(user) 
             # 의존성 주입
+            # jwt 참조
+            # https://velog.io/@osj1405/FastAPI-보안 
                     
     # 2. 수정 (update)
     async def update_service(self, user_id: str, user: UpUser): # 입력 model UserIn
