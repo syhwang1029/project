@@ -1,6 +1,7 @@
+import token
 from app.repository.user_repository import UserRepository # user repository
-from app.model.user import UpUser, UserIn, UserOut, UserOutn  # user model 
-from app.token.utillity import Token # jwt
+from app.model.user import UpUser, UserIn, UserOut, UserOut  # user model 
+from app.token.utillity import Token # jwt utillity
 
 # service 의존성 주입 참고 
 # https://the-boxer.tistory.com/63
@@ -14,9 +15,9 @@ class UserService:
         # repositor가 자기 자신을 참조하는 매개변수 
         # init 함수와 self 함수의 설명 
         # https://www.google.com/search?q=__init__+%ED%95%A8%EC%88%98+%EC%97%AD%ED%95%A0&oq=__init__+%ED%95%A8%EC%88%98+%EC%97%AD%ED%95%A0&gs_lcrp=EgZjaHJvbWUyCQgAEEUYORigATIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigAdIBCjE2MDIzajBqMTWoAgCwAgA&sourceid=chrome&ie=UTF-8
-
-        #self.token = TokenRepository() # token repository
-
+        
+        self.jwt = Token() # token repository
+        
     # 5. 전체 조회 (read)
     async def read_service(self): # 조회
         # 비동기 
@@ -32,8 +33,9 @@ class UserService:
     
     # 1. 생성 (create)    
     # 비동기
-    async def create_service(self, user: UserIn) -> UserOut : # 입력 model UserIn
+    async def create_service(self, user: UserIn) -> UserOut: # 입력 model UserIn
         user = dict(user) # user : dict
+        hashed_password =
         return await self.repository.create_repository(user) 
             # 의존성 주입
                     

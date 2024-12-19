@@ -25,21 +25,23 @@ ALGORITHM = "HS256" # 암호화 해시 알고리즘 => header
                            
 # jwt - token
 class Token: 
+    def __init__(self):
+        self.jwt = Token()
 # 일반 비밀번호 -> 해시로 반환 -> db에 안전하게 저장                            
-    async def get_hashed_password(password: str) -> str:
+    async def get_hashed_password(self, password: str) -> str:
                                                 # return 값 = str
         return password_context.hash(password)
                                 # hash : 임의의 길이의 데이터(key)를 고정된 길이의 데이터(hash value)로 매핑(=hashing)
 
     # 일반 비밀번호와 해시 비밀번호 일치 여부 확인 (검증)
-    async def verify_password(password: str, hashed_pass: str) -> bool: 
+    async def verify_password(self, password: str, hashed_pass: str) -> bool: 
                                                             # return 값 = bool (True / False)
         return password_context.verify(password, hashed_pass)
                         # verify 함수로 비밀번호 일치 여부 확인 
                         # password = hashed_pass => bool로 return
                         
     # 비밀유지 설정 -> 만료 시간
-    async def create_refresh_token(data: dict, expires_delta: timedelta | None = None) -> str:  
+    async def create_refresh_token(self, data: dict, expires_delta: timedelta | None = None) -> str:  
                                                         # 시간차이 계산
         # 만료 시간
         to_encode = data.copy() # data 복사
