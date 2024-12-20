@@ -36,3 +36,6 @@ class UpUser(BaseModel):
      username: Optional[str] = None # 선택값 = Optional = 기본값 = None 
      email: Optional[EmailStr] = None
      password: Optional[str] = None  
+
+class UserInDB(User):
+    hashed_password: str

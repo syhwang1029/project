@@ -13,8 +13,9 @@
 # bson과 json의 차이점
 # https://velog.io/@chayezo/MongoDB-JSON-vs.-BSON
 
-from fastapi import APIRouter
-
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer
+from app.token.utillity import Token # jwt utillity
 # from fastapi.responses import JSONResponse # router 
 # 라우터 참고
 # https://wikidocs.net/176226
@@ -29,7 +30,11 @@ router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (rout
     tags=["User"]
 )
 
-service = UserService() # user service 객체
+service = UserService() # user service 
+
+# token
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token") # Aouth2
+jwt = Token() # Json Web Token
 
 
 ## user ##

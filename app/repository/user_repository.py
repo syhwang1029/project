@@ -6,6 +6,7 @@
 
 from bson.objectid import ObjectId # mongodb objectId
 from app.database.database.user_collection import db, collection # mongodb 
+from app.model.user import UserInDB
 from app.token.utillity import Token # jwt utillity
 # model 사용 x
 
@@ -32,7 +33,7 @@ class UserRepository:
         # https://github.com/accubits/FastAPI-MongoDB
  
  # 4. 일부 조회 (read)
-    async def read_repository_userid(self, user_id: str):
+    async def read_repository_userid(self, user_id: str) -> dict:
         users = collection.find_one({"_id":ObjectId(user_id)}) # objectId = user_id 지정
         users["_id"] = str(users["_id"]) # str으로 수정
         # ObjectID 참고 
@@ -41,7 +42,7 @@ class UserRepository:
     
 # 1. 생성 (create)   
     # 비동기
-    async def create_repository(self, user: dict) -> str: # user 생성
+    async def create_repository(self, user: dict) -> dict: # user 생성
         # collection에서만 dict 상속 가능함
         users = collection.insert_one(user) 
                         # db create 명령어 
@@ -52,7 +53,7 @@ class UserRepository:
     # https://kimdoky.github.io/python/2018/12/03/python-nosql/
     
 # 2. 수정 (update) 
-    async def update_repository(self, user_id: str, user: str) -> dict: # user 수정
+    async def update_repository(self, user_id: str, user: dict) -> dict: # user 수정
         users = collection.update_one({"_id": ObjectId(user_id)}, # objectId로 수정 
                                         {"$set": user})
                             # db update 명령어                
@@ -65,3 +66,20 @@ class UserRepository:
         users = collection.delete_one({"_id": ObjectId(user_id)}) # objectId로 삭제
                          # db delete 명령어
         return users.deleted_count 
+   
+    
+    async def get_user(self, username: str): 
+        if username in collection:
+            user_dict = collection[username]
+            return UserInDB(**user_dict)
+    
+    async def authenticate_user(self, collection, username: str, password: str):
+        user = self.get_user(collection, username)
+        if not user:
+            return False
+        if not self.jwt.verify_password(password, self.jwt.get_hashed_password):
+            return False
+        return user
+    
+    
+            

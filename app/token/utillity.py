@@ -1,6 +1,8 @@
 # jwt 참고
 # https://essenceofinvesting.tistory.com/114
 
+from typing import Annotated
+from fastapi import Depends
 from passlib.context import CryptContext # 비밀번호 해싱 + 알고리즘 포함
 
 from datetime import datetime, timedelta, timezone # 시간과 날짜
@@ -33,11 +35,11 @@ class Token:
         return await password_context.hash(password)
                                 # hash : 임의의 길이의 데이터(key)를 고정된 길이의 데이터(hash value)로 매핑(=hashing)
 
-    # 비밀번호 확인
+    
     # 일반 비밀번호와 해시 비밀번호 일치 여부 확인 (검증)
-    async def verify_password(self, password: str, hashed_pass: str) -> bool: 
+    async def verify_password(self, plain_password: str, hashed_passworod: str) -> bool: 
                                                             # return 값 = bool (True / False)
-        return await password_context.verify(password, hashed_pass)
+        return await password_context.verify(plain_password, hashed_passworod)
                         # verify 함수로 비밀번호 일치 여부 확인 
                         # password = hashed_pass => bool로 return
                         

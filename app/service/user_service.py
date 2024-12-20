@@ -1,5 +1,5 @@
 from app.repository.user_repository import UserRepository # user repository
-from app.model.user import UpUser, UserIn, UserOut, UserOut  # user model 
+from app.model.user import UpUser, UserIn, UserOut  # user model 
 from app.token.utillity import Token # jwt utillity
 
 # service 의존성 주입 참고 
@@ -32,7 +32,7 @@ class UserService:
     
     # 1. 생성 (create)    
     # 비동기
-    async def create_service(self, user: UserIn) -> UserOut: # 입력 model UserIn
+    async def create_service(self, user: UserIn): # 입력 model UserIn\        
         user = dict(user) # user : dict
         return await self.repository.create_repository(user) 
             # 의존성 주입
@@ -51,7 +51,3 @@ class UserService:
         # 비동기 
         return await self.repository.delete_repository(user_id)
             # 의존성 주입
-            
-    # 6.Token
-    async def token_service(self, user_id:str, user: UserIn) -> Token:
-        token = await self.repository.read_repository_userid(user_id)
