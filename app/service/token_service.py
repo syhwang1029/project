@@ -1,4 +1,5 @@
 import stat
+from typing import Annotated
 from fastapi import Depends, HTTPException 
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError # error
@@ -15,21 +16,32 @@ class TokenService:
         self.repository = TokenRepository()
         self.jwt = Token() # token
         
-async def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=stats.HTTP_401_UNAUTHORIZED,
+# 종속성 업데이트
+# 현재 user 정보
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    # asuth2 
+    
+    credentials_exception = HTTPException( # 예외 처리 
+        status_code=stats.HTTP_401_UNAUTHORIZED, # 401 error
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
+        # jwt decode : token, 비밀키, 알고리즘
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
+        
+        username: str = payload.get("sub") # username
+        
         if username is None:
-            raise credentials_exception
+            
+            raise credentials_exception # token data
         token_data = TokenData(username=username)
-    except JWTError:
+        
+    except InvalidTokenError:
         raise credentials_exception
+    
     user = get_user(fake_users_db, username=token_data.username)
+    
     if user is None:
         raise credentials_exception
     return user

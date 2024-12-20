@@ -9,17 +9,6 @@ from app.model.user import UserInDB # jwt 토큰
 # token : 클라이언트가 직접 자신에 해당하는 정보를 저장하는 방식 (보관)
 # JWT = Header + Payload + Signature (Base64)
 
-# fake user db
-fake_users_db = {
-    "user": {
-    "username": "johndoe",
-    "email": "johndoe@example.com",
-    "hashed_password": "fakehashedsecret",
-    "disabled": False
-     }
-}
-   
-
 # token repository
 class TokenRepository:
     def __init__(self):
