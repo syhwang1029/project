@@ -13,25 +13,27 @@ from jose import jwt # jwt 토큰
 # passlib context
 # 암호 해싱을 위한 구성 컨텍스트
 # db 저장 전에 비밀번호 해싱
+# 패스워드 해싱 유틸리티
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
                             # 알고리즘 : bcrypt
 
 
 # jwt(json web token) 생성 => Payload
-SECRET_KEY = "46e183100685ba84b28891a51d305d17105a7f073026b8afd9fb57ac5cb5b00c" # jwt 임의의 비밀 키
-ACCESS_TOKEN_EXPIRE_MINUTES = 30  # 액세스 만료시간 = 30분
-ALGORITHM = "HS256" # 암호화 해시 알고리즘 => header
+SECRET_KEY = "46e183100685ba84b28891a51d305d17105a7f073026b8afd9fb57ac5cb5b00c" # 비밀 키
+ACCESS_TOKEN_EXPIRE_MINUTES = 30  # 만료 시간 = 30분
+ALGORITHM = "HS256" # 암호화 해시 알고리즘 선택 => header
 # 쿠키x -> 보안적인 문제 대비 예방 
                            
 # jwt - token
 class Token: 
 # password
-# 일반 비밀번호 -> 해싱 -> 해싱 비밀번호 db에 안전하게 저장                            
+    # 일반 비밀번호 -> 해싱 -> 해싱 비밀번호 db에 안전하게 저장                            
     async def get_hashed_password(self, password: str) -> str:
                                                 # return 값 = str
         return await password_context.hash(password)
                                 # hash : 임의의 길이의 데이터(key)를 고정된 길이의 데이터(hash value)로 매핑(=hashing)
 
+    # 비밀번호 확인
     # 일반 비밀번호와 해시 비밀번호 일치 여부 확인 (검증)
     async def verify_password(self, password: str, hashed_pass: str) -> bool: 
                                                             # return 값 = bool (True / False)
@@ -41,8 +43,10 @@ class Token:
                         
     # JWT 설명 참고
     # https://velog.io/@taegong_s/%EC%8B%AD%EC%9E%90%EB%A7%90%ED%92%80%EC%9D%B4-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%EB%A1%9C%EA%B7%B8%EC%9D%B8%EA%B3%BC-%EC%86%8C%EC%85%9C-%EB%A1%9C%EA%B7%B8%EC%9D%B8-JWT%EB%A1%9C-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
+
     
-    # token
+# token
+    # 토큰 생성
     # 비밀유지 설정 -> 만료 시간
     async def create_refresh_token(self, data: dict, expires_delta: timedelta | None = None):  
                                             # 암호화 데이터, JWT 만료 시간
@@ -58,8 +62,9 @@ class Token:
             expire = datetime.now(timezone.utc) + timedelta(minutes=15)
                     # 날짜와 시간
                     
-            to_encode.update({"exp": expire}) # 만료 시간 측정
+            to_encode.update({"exp": expire}) # 만료 시간 업데이트 (측정) 
+            # 토큰에 만료 시간 포함
             
         encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
                                 # 만료 시간, 비밀 키, 알고리즘
-        return encoded_jwt # 측정 시간에 따른 비밀키 완료
+        return encoded_jwt # 비밀키 생성 완료
