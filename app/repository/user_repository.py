@@ -6,7 +6,7 @@
 
 from bson.objectid import ObjectId # mongodb objectId
 from app.database.database.user_collection import db, collection # mongodb 
-from app.model.user import UserInDB
+
 from app.token.utillity import Token # jwt utillity
 # model 사용 x
 
@@ -66,20 +66,6 @@ class UserRepository:
         users = collection.delete_one({"_id": ObjectId(user_id)}) # objectId로 삭제
                          # db delete 명령어
         return users.deleted_count 
-   
-    
-    async def get_user(self, username: str): 
-        if username in collection:
-            user_dict = collection[username]
-            return UserInDB(**user_dict)
-    
-    async def authenticate_user(self, collection, username: str, password: str):
-        user = self.get_user(collection, username)
-        if not user:
-            return False
-        if not self.jwt.verify_password(password, self.jwt.get_hashed_password):
-            return False
-        return user
     
     
             

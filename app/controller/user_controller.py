@@ -13,9 +13,11 @@
 # bson과 json의 차이점
 # https://velog.io/@chayezo/MongoDB-JSON-vs.-BSON
 
+import stat
+from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.security import OAuth2PasswordBearer
-from app.token.utillity import Token # jwt utillity
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from app.token.utillity import ACCESS_TOKEN_EXPIRE_MINUTES, Token # jwt utillity
 # from fastapi.responses import JSONResponse # router 
 # 라우터 참고
 # https://wikidocs.net/176226
@@ -40,23 +42,22 @@ jwt = Token() # Json Web Token
 ## user ##
 # 5. 전체 조회 (read)
 # @rouetr.get = @app.get 
-@router.get("/user/") # get : 조회
+@router.get("/user/", response_model=UserOut) # get : 조회
 async def read_user():
     # 비동기 
     return await service.read_service()
             # 의존성 주입
 
 # 4. 일부 조회 (read)
-@router.get("/user/{user_id}")
+@router.get("/user/{user_id}", response_model=UserOut)
 async def reat_user_userid(user_id: str):
     # 비동기
     return await service.read_service_userid(user_id)
             # 의존성 주입
 
-
 # 1. 생성 (create)
 # @router.post = @app.post
-@router.post("/user/") # post : 생성
+@router.post("/user/", response_model=UserOut) # post : 생성
   # path parameter (경로 파라미터)
 async def create_user(user: UserIn): # 입력 model UserIn
     # 비동기 
@@ -67,7 +68,7 @@ async def create_user(user: UserIn): # 입력 model UserIn
 # 2. 수정 (update)
 # @router.put = @app.put //전체 수정
 # @routre.patch = @app.patch //일부 수정
-@router.put("/user/{user_id}") 
+@router.put("/user/{user_id}", response_model=UserOut) 
 async def update_user(user_id: str, user: UpUser): # 선택값 설정, 기본값 = None
     # 비동기                    
     return await service.update_service(user_id, user)
@@ -77,7 +78,7 @@ async def update_user(user_id: str, user: UpUser): # 선택값 설정, 기본값
 
 # 3. 삭제 (delete)
 # @router.delete = @app.delete 
-@router.delete("/user/{user_id}") # delete : 삭제
+@router.delete("/user/{user_id}", response_model=UserOut) # delete : 삭제
 async def delete_user(user_id: str):
     return await service.delete_service(user_id)
 

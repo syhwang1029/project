@@ -31,11 +31,12 @@ class UserIn(User):
 class UserOut(User): # 리캡 : User 클래스 상속받음 
      pass # 비밀번호 미포함
  
+
+class UserInDB(User):
+    hashed_password: str
+     
 # Update
 class UpUser(BaseModel): 
      username: Optional[str] = None # 선택값 = Optional = 기본값 = None 
      email: Optional[EmailStr] = None
      password: Optional[str] = None  
-
-class UserInDB(User):
-    hashed_password: str
