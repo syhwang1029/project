@@ -25,24 +25,27 @@ ALGORITHM = "HS256" # 암호화 해시 알고리즘 => header
                            
 # jwt - token
 class Token: 
-    def __init__(self):
-        self.jwt = Token()
-# 일반 비밀번호 -> 해시로 반환 -> db에 안전하게 저장                            
+# password
+# 일반 비밀번호 -> 해싱 -> 해싱 비밀번호 db에 안전하게 저장                            
     async def get_hashed_password(self, password: str) -> str:
                                                 # return 값 = str
-        return password_context.hash(password)
+        return await password_context.hash(password)
                                 # hash : 임의의 길이의 데이터(key)를 고정된 길이의 데이터(hash value)로 매핑(=hashing)
 
     # 일반 비밀번호와 해시 비밀번호 일치 여부 확인 (검증)
     async def verify_password(self, password: str, hashed_pass: str) -> bool: 
                                                             # return 값 = bool (True / False)
-        return password_context.verify(password, hashed_pass)
+        return await password_context.verify(password, hashed_pass)
                         # verify 함수로 비밀번호 일치 여부 확인 
                         # password = hashed_pass => bool로 return
                         
+    # JWT 설명 참고
+    # https://velog.io/@taegong_s/%EC%8B%AD%EC%9E%90%EB%A7%90%ED%92%80%EC%9D%B4-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%EB%A1%9C%EA%B7%B8%EC%9D%B8%EA%B3%BC-%EC%86%8C%EC%85%9C-%EB%A1%9C%EA%B7%B8%EC%9D%B8-JWT%EB%A1%9C-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
+    
+    # token
     # 비밀유지 설정 -> 만료 시간
-    async def create_refresh_token(self, data: dict, expires_delta: timedelta | None = None) -> str:  
-                                                        # 시간차이 계산
+    async def create_refresh_token(self, data: dict, expires_delta: timedelta | None = None):  
+                                            # 암호화 데이터, JWT 만료 시간
         # 만료 시간
         to_encode = data.copy() # data 복사
         

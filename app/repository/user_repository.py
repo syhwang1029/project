@@ -41,7 +41,7 @@ class UserRepository:
     
 # 1. 생성 (create)   
     # 비동기
-    async def create_repository(self, user: dict) -> dict: # user 생성
+    async def create_repository(self, user: dict) -> str: # user 생성
         # collection에서만 dict 상속 가능함
         users = collection.insert_one(user) 
                         # db create 명령어 
@@ -52,7 +52,7 @@ class UserRepository:
     # https://kimdoky.github.io/python/2018/12/03/python-nosql/
     
 # 2. 수정 (update) 
-    async def update_repository(self, user_id: str, user: dict) -> dict: # user 수정
+    async def update_repository(self, user_id: str, user: str) -> dict: # user 수정
         users = collection.update_one({"_id": ObjectId(user_id)}, # objectId로 수정 
                                         {"$set": user})
                             # db update 명령어                
