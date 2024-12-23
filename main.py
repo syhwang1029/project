@@ -21,4 +21,4 @@ app.include_router(board_controller.router)
 
 ### FastAPI ####
 if __name__ == "__main__": # FastAPI 서버 자동 실행
-    uvicorn.run(app, host="0.0.0.0", port=1203)
+    uvicorn.run("main:app", host="0.0.0.0", port=1203, reload=True)

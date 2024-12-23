@@ -1,5 +1,5 @@
 from app.repository.user_repository import UserRepository # user repository
-from app.model.user import UpUser, UserIn, UserOut  # user model 
+from app.model.user import UpUser, User, UserIn  # user model 
 from app.token.utillity import Token # jwt utillity
 
 # service 의존성 주입 참고 
@@ -18,32 +18,32 @@ class UserService:
         self.jwt = Token() # token repository
         
     # 5. 전체 조회 (read)
-    async def read_service(self): # 조회
+    async def read_service(self): # user 조회
         # 비동기 
         return await self.repository.read_repository()
                 # 의존성 주입
                 
-    # 4. 일부 조회 (read)
-    async def read_service_userid(self, user_id: str):
+       # 4. 일부 조회 (read)
+    async def read_service_username(self, username: str):
+        username = dict(username)
         # 비동기
-        return await self.repository.read_repository_userid(user_id)
+        return await self.repository.read_repository_username(username)
                     # 의존성 주입
-    
     
     # 1. 생성 (create)    
     # 비동기
-    async def create_service(self, user: UserIn): # 입력 model UserIn\        
-        user = dict(user) # user : dict
-        return await self.repository.create_repository(user) 
+    async def create_service(self, user: UserIn): # 입력 model : UserIn     
+        user_data = dict(user) # user_data = UserIn.dict()
+        return await self.repository.create_repository(user_data) 
             # 의존성 주입
             # jwt 참조
             # https://velog.io/@osj1405/FastAPI-보안 
                     
     # 2. 수정 (update)
-    async def update_service(self, user_id: str, user: UpUser): # 입력 model UserIn
+    async def update_service(self, user_id: str, user: UpUser): # 수정 model : UpUser
         # 비동기  
-        user = dict(user)
-        return await self.repository.update_repository(user_id, user)
+        user_data = dict(user) # user_data = UpUser.dict()
+        return await self.repository.update_repository(user_id, user_data)
             # 의존성 주입
     
     # 3. 삭제 (delete)
