@@ -31,9 +31,6 @@ class UserIn(User):
 class UserOut(User): # 리캡 : User 클래스 상속받음 
      pass # 비밀번호 미포함
  
-
-class UserInDB(User):
-    hashed_password: str
      
 # Update
 class UpUser(BaseModel): 

@@ -27,7 +27,6 @@ from app.service.user_service import UserService # user service
 from app.model.user import UpUser, UserIn # user model
 from app.model.token import Tokens # token model
 
-
 router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (routing)
     prefix="/users", # 경로
     tags=["User"] 
@@ -36,9 +35,9 @@ router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (rout
 service = UserService() # user service 
 token_service = TokenService() # token service
 
+
 # token
 jwt = Token() # Json Web Token
-
 
 ## user ##
 # 5. 전체 조회 (read)
@@ -76,13 +75,13 @@ async def update_user(user_id: str, user: UpUser): # 선택값 설정, 기본값
 async def delete_user(user_id: str):
     return await service.delete_service(user_id)
 
-
+## token ##
 # 로그인 및 토큰 발급 
 @router.post("/token", response_model=Tokens) # response_mode : 응답 처리 model
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()): 
                                         # OAuth2PasswordRequestForm : username과 password값을 얻기 위한 form
     user = await service.read_service_username(form_data.username) # username : user 모델 조회 
-    if not user or not token_service.verify_password(form_data.password, user["password"]): 
+    if not user or not token_service.verify_password(form_data.password, user["hashed_passworod"]): 
                                                         # 입력 받은 텍스트 비밀번호와 db에 저장된 비밀번호 일치 유무 검증
                                                     # verify_password 메소드 return값인 pwd_context.verify로 검증 시도함
                                                    
@@ -109,6 +108,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
             # bearer 보안 토큰 : jwt 토큰 포함 
     # token router 참고
     # https://databoom.tistory.com/entry/FastAPI-JWT-%EA%B8%B0%EB%B0%98-%EC%9D%B8%EC%A6%9D-6
+
 
 # 이전 참고글
 # https://hanseungwan24.tistory.com/entry/Fast-API-%EA%B5%AC%EC%B6%952

@@ -14,8 +14,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token") # 로그인시 토큰을 
 class TokenService:
     def __init__(self):
         self.jwt = Token() # token
-        self.repository = UserRepository() # userrepository
-    
+        self.repository = UserRepository() # user repository
+
 # JWT 토큰 생성 함수
     # 비밀유지 설정 -> 만료시간
     def create_access_token(self, data: dict, expires_delta: timedelta = None):  
@@ -46,13 +46,14 @@ class TokenService:
                                 # encoding할 jwt의 data = 만료시간, 비밀키, 알고리즘
         return encoded_jwt # JWT 토큰 생성 완료
         
+        
 # password
     # 비밀번호 검증
-    def verify_password(self, plain_password: str, hashed_passworod: str) -> bool: # return 값 = bool (True / False)
+    async def verify_password(self, plain_password: str, hashed_passworod: str): # return 값 = bool (True / False)
                         # plain password : 일반 텍스트 비밀번호
                         # hashed password : 해싱 비밀번호 (암호화)
                                                             
-        return self.jwt.pwd_context.verify(plain_password, hashed_passworod)
+        return await self.jwt.pwd_context.verify(plain_password, hashed_passworod)
                         # verify 함수로 비밀번호 일치 여부 확인 
                         # password = hashed_pass => bool로 return  
     # JWT 설명 참고
@@ -60,9 +61,9 @@ class TokenService:
     
              
     # 일반 텍스트 비밀번호 해싱                    
-    def hashed_password(self, password: str) -> str:
+    async def hashed_password(self, password: str):
                                                 # return 값 = str
-        return self.jwt.pwd_context.hash(password)
+        return await self.jwt.pwd_context.hash(password)
                         # hash : 임의의 길이의 데이터(key)를 고정된 길이의 데이터(hash value)로 매핑(=hashing)
     
 # FastAPI에서 JWT 토큰 생성

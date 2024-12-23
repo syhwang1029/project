@@ -37,10 +37,11 @@ class UserRepository:
         user = collection.find_one({"username": username}) # None 
         if user: # objectId = user_id 지정
             user["_id"] = str(user["_id"]) # str으로 수정
-            return user 
+        return user 
         # ObjectID 참고 
         # https://github.com/accubits/FastAPI-MongoDB
-        return None # 해당 user(대상)가 아닌 경우, 무효(None) 처리함
+    
+         # 해당 user(대상)가 아닌 경우, 무효(None) 처리함
                 # return None 설명 참고
                 # https://velog.io/@munang/%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-Python-None-%EB%A6%AC%ED%84%B4%ED%95%98%EB%8A%94-%EA%B2%BD%EC%9A%B0-%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98-None-%EB%A6%AC%ED%84%B4
     

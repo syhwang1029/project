@@ -1,5 +1,6 @@
 from app.repository.user_repository import UserRepository # user repository
-from app.model.user import UpUser, User, UserIn  # user model 
+from app.model.user import UpUser, UserIn  # user model 
+from app.service.token_service import TokenService # jwt service
 from app.token.utillity import Token # jwt utillity
 
 # service 의존성 주입 참고 
@@ -16,16 +17,16 @@ class UserService:
         # https://www.google.com/search?q=__init__+%ED%95%A8%EC%88%98+%EC%97%AD%ED%95%A0&oq=__init__+%ED%95%A8%EC%88%98+%EC%97%AD%ED%95%A0&gs_lcrp=EgZjaHJvbWUyCQgAEEUYORigATIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigAdIBCjE2MDIzajBqMTWoAgCwAgA&sourceid=chrome&ie=UTF-8
         
         self.jwt = Token() # token repository
-        
+        self.token_service = TokenService() # token service
+    
     # 5. 전체 조회 (read)
     async def read_service(self): # user 조회
         # 비동기 
         return await self.repository.read_repository()
                 # 의존성 주입
                 
-       # 4. 일부 조회 (read)
+    # 4. 일부 조회 (read)
     async def read_service_username(self, username: str):
-        username = dict(username)
         # 비동기
         return await self.repository.read_repository_username(username)
                     # 의존성 주입
@@ -33,8 +34,11 @@ class UserService:
     # 1. 생성 (create)    
     # 비동기
     async def create_service(self, user: UserIn): # 입력 model : UserIn     
+        hashed_passworod = self.token_service.hashed_password(user.password)  # 해싱 비밀번호
         user_data = dict(user) # user_data = UserIn.dict()
-        return await self.repository.create_repository(user_data) 
+        user_data["password"] = hashed_passworod # 일반 텍스트 비밀번호 = 해시된 비밀번호
+        user = self.repository.create_repository(user_data) 
+        return await user
             # 의존성 주입
             # jwt 참조
             # https://velog.io/@osj1405/FastAPI-보안 
