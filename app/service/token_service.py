@@ -8,6 +8,13 @@ from app.repository.user_repository import UserRepository # user  repository
 from app.token.utillity import Token, SECRET_KEY, ALGORITHM  # jwt 발급을 위한 설정
 
 
+# jwt 참고1
+# https://databoom.tistory.com/entry/FastAPI-JWT-%EA%B8%B0%EB%B0%98-%EC%9D%B8%EC%A6%9D-6
+# jwt 참고2
+# https://wikidocs.net/176934
+
+
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token") # 로그인시 토큰을 받기 위한 경로("/token") 정의
 
 # token service
