@@ -21,26 +21,35 @@ class UserRepository:
         self.jwt = Token() # jwt
       
  # 5. 전체 조회 (read)
-    async def read_repository(self): # user 조회
-        # 비동기
+    async def read_repository(self): # user 전체 조회
+        # 비동기 
         users = collection.find() # db find 명령어
         userlist = [] # user list 초기화
-        for user in users: #user 객체에 db find 명령어 대입 
-            user["_id"] = str(user["_id"]) # user 객체에 ObjectId를 문자열로 반환
-            userlist.append(user) # userlist에 데이터 추가
-        return userlist
+        # objectid = list 형태의 array를 받음
+        for user in users: # for in 반복문 : 
+                            # user collection에서 조회한 user data을 user 객체로 확인
+                            # for in 반복문 참고
+                            # https://wikidocs.net/16045
+            user["_id"] = str(user["_id"]) # json type으로 변경 
+                                           # json 형태인 objectid = strng으로 변경 작업 필요
+                                           # "_id"의 key => str 으로 변경 ==> json 형태
+                                           # 요약 : objectid을 str으로 변경하여 json 형태로 사용함
+                                           # pymongo objectid 참고 
+                                           # https://blog.voidmainvoid.net/334
+            userlist.append(user) # userlit 객체 list에 원소 (data) 추가
+        return userlist # userlist로 user 조회
         # 조회 참고
         # https://github.com/accubits/FastAPI-MongoDB
  
  # 4. 일부 조회 (read)
     async def read_repository_username(self, username: str): # username으로 특정 user 조회 
-        user = collection.find_one({"username": username}) # None 
+        user = collection.find_one({"username": username}) 
         if user: # objectId = user_id 지정
             user["_id"] = str(user["_id"]) # str으로 수정
-        return user 
+            return user 
         # ObjectID 참고 
         # https://github.com/accubits/FastAPI-MongoDB
-    
+        return None
          # 해당 user(대상)가 아닌 경우, 무효(None) 처리함
                 # return None 설명 참고
                 # https://velog.io/@munang/%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-Python-None-%EB%A6%AC%ED%84%B4%ED%95%98%EB%8A%94-%EA%B2%BD%EC%9A%B0-%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98-None-%EB%A6%AC%ED%84%B4
@@ -49,12 +58,15 @@ class UserRepository:
     # 비동기
     async def create_repository(self, user: dict): # user 생성
         # collection에서만 dict 상속 가능함
-        users = collection.insert_one(user) 
-                        # db create 명령어 
-        return str(users.inserted_id) # ObjectId = _id 필드 생성
-        # object에서는 await 사용 불가능함   
+        users = collection.insert_one(user) # db create 명령어 
+        user["_id"] = str(users.inserted_id) # insertde_id : objectid (고유 키) 자동 생성 
+        return user # ObjectId = "_id" 
+        # objectid s에서는 await 사용 불가능함   
     # Mongodb 명령어 참고 
     # https://kimdoky.github.io/python/2018/12/03/python-nosql/
+    
+    # crud 참고
+    # https://apidog.com/kr/blog/fastapi-and-mongodb-2/
     
 # 2. 수정 (update) 
     async def update_repository(self, user_id: str, user: dict): # user_id로 user 수정

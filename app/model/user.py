@@ -12,7 +12,7 @@ from pydantic import BaseModel, EmailStr # Database 모델의 정의
 
 # User 모델 데이터 정의 
 class User(BaseModel): # 조회, 생성
-    username: str  # 이름 # token과 다른 Id 구분
+    username: str # 이름 # token과 다른 Id 구분
     email: EmailStr # 이메일
                     # user@example.com
     # EmailStr 다운로드 
