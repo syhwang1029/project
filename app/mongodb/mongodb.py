@@ -10,9 +10,13 @@ client = MongoClient(MONGO_URI)# MongoDB Client 생성
 # 그외 참고 
 # mongodb 연결
 # 1. database 가져오기
-# db = client["db_name"] 
+# db = client["db_name"] # 선택한 database name
 # 2. collection 가져오기
-# collection = db["collection_name"]
+# collection = db["collection_name"] # 선택한 collection name
+
 # mongodb 연결 참조
 # https://it-creamstory.tistory.com/entry/Python-MongoDB-connect-%EC%97%B0%EA%B2%B0%ED%95%98%EA%B8%B0
 # https://wooiljeong.github.io/python/mongodb-01/
+
+# mongodb 공식문서
+# https://pymongo.readthedocs.io/en/stable/tutorial.html
