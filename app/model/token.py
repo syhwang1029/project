@@ -9,4 +9,5 @@ class Tokens(BaseModel):
     
 # token data
 class TokenData(BaseModel):
-    username: Optional[str] = None
+    username: Optional[str] = None # 선택적
+    # username
