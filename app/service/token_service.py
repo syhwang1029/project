@@ -59,17 +59,16 @@ class TokenService:
          # 토큰 만료시간
         if expires_delta: # True인 경우
             # 만료시간 데이터
-            expire = datetime.now(timezone('Asia/Seoul')) + expires_delta
+            expire = datetime.now(timezone.utc) + expires_delta
                     # daetime: 날짜와 시간 조작
                     # now : 시간대 표기
                     # utc : 영국 + timezone = 영국의 현재 시간과 오늘의 날짜
                         
         else: # False인 경우
-            expire = datetime.now(timezone('Asia/Seoul')) + timedelta(minutes=15) # 기본 시간 15분
+            expire = datetime.now(timezone.utc) + timedelta(minutes=15) # 기본 시간 15분
                     # 오늘의 날짜 + 15분 
                     # utcnow 더이상 사용하지 않기 때문에 now로 대체함
-                    # 'Asia/Seoul' : 한국
-                    
+                                    
         to_encode.update({"exp": expire}) # 만료시간 측정 
             # 생성할 토큰에 만료시간 포함
             
