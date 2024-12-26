@@ -55,13 +55,18 @@ async def read_user():
     # 비동기 
     return await service.read_service() 
             # 의존성 주입
- 
-# userid
-@router.get("/user/{user_id}}")
-async def read_user_userid(user_id: str):
-    # 비동기
+            
+# 6. 일부 조회 (read) - userid
+@router.get("/user/{user_id}") # userid = Objectid
+async def read_user_userid(user_id: str): # userid로 user 조회
     return await service.read_service_userid(user_id)
-        # 의존성 주입            
+
+# 7. 일부 조회 (read) - email
+@router.get("/user/{user_id}/{email}") # 경로 매개변수 순서에 맞게 userid/email로 설정
+async def read_user_email(email:str): # email로 user 조회
+    return await service.read_service_email(email) 
+
+          
 
 # 1. 생성 (create)
 # @router.post = @app.post

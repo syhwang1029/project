@@ -25,10 +25,13 @@ class UserService:
         return await self.repository.read_repository()
                 # 의존성 주입
     
-    # userid
+    # 6. 일부 조회 (read) - userid
     async def read_service_userid(self, user_id: str): # userid로 user 조회
-        # 비동기
         return await self.repository.read_repository_userid(user_id)
+    
+    # 7. 일부 조회 (read) - email
+    async def read_service_email(self, email: str): # email로 user 조회
+        return await self.repository.read_repository_email(email)
     
                 
     # 4. 일부 조회 (read) - token

@@ -4,7 +4,8 @@
 # crud 참고
 # https://github.com/accubits/FastAPI-MongoDB 
 
-from bson.objectid import ObjectId # mongodb objectId
+from bson.objectid import ObjectId
+from pydantic import EmailStr # mongodb objectId
 from app.database.database.user_collection import db, collection # mongodb 
 
 from app.token.utillity import Token # jwt utillity
@@ -40,18 +41,8 @@ class UserRepository:
         return userlist # userlist로 user 조회
         # 조회 참고
         # https://github.com/accubits/FastAPI-MongoDB
- 
-# userid                                     
-    async def read_repository_userid(self, user_id: str): # userid로 user 조회
-        # 비동기
-                                    # user_id = Objcetid
-                                    # 1. pymongo를 통해 collection으로 find한 objecteid는 유효한 json 타입 x
-                                    # 2. 그리하여 Objectid는 string으로 변환해야 함
-                                    # "_id" 필드는 index(key)이기 때문에 string 타입으로 지정함
-                                    # https://ryu-e.tistory.com/2
-        return  collection.find_one({"_id":ObjectId(user_id)}) 
- 
- # 4. 일부 조회 (read) - token
+
+  # 4. 일부 조회 (read) - token
     async def read_repository_username(self, username: str): # username으로 특정 user 조회 
         user = collection.find_one({"username": username}) 
         if user: # objectId = user_id 지정
@@ -63,17 +54,34 @@ class UserRepository:
          # 해당 user(대상)가 아닌 경우, 무효(None) 처리함
                 # return None 설명 참고
                 # https://velog.io/@munang/%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-Python-None-%EB%A6%AC%ED%84%B4%ED%95%98%EB%8A%94-%EA%B2%BD%EC%9A%B0-%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98-None-%EB%A6%AC%ED%84%B4
-    
-        
+ 
+
+# 6. 일부 조회 (read) - userid
+    async def read_repository_userid(self, user_id: str): # userid로 user 조회
+        # 비동기 
+        users = collection.find_one({"_id":ObjectId(user_id)}) # db raed 명령어
+        # 1. pymongo를 통해 colllection에서 find한 objectid는 유효한 json 타입이 아님
+                            # userid로 user 조회(조건)
+        users["_id"] = str(users["_id"]) # user 조회
+        # 2. 그리하여 string으로 변환하여 json 형태로 결과값을 받음.
+        return users # user 조회 결과 반환
+ 
+# 7. 일부 조회 (reda) - email
+    async def read_repository_email(self, email: str): # email로 user 조회
+        # 비동기
+        users = collection.find_one({"email":email}) # db read 명령어 
+                        # email로 조회 (조건)
+        users["_id"] = str(users["_id"]) # string으로 반환하여 json 사용
+        return users  # users로 결과 반환
     
 # 1. 생성 (create)   
     # 비동기
     async def create_repository(self, user: dict): # user 생성
         # collection에서만 dict 상속 가능함
         users = collection.insert_one(user) # db create 명령어 
-        user["_id"] = str(users.inserted_id) # insertde_id : objectid (고유 키) 자동 생성 
+        users["_id"] = str(users.inserted_id) # insertde_id : objectid (고유 키) 자동 생성 
         return user # ObjectId = "_id" 
-        # objectid s에서는 await 사용 불가능함   
+        # objectid 에서는 await 사용 불가능함   
     # Mongodb 명령어 참고 
     # https://kimdoky.github.io/python/2018/12/03/python-nosql/
     
