@@ -38,7 +38,7 @@ class TokenService:
     # 비밀번호 검증
     # user가 입력한 일반 텍스트 비밀번호와 
     # database에 저장된 해싱 비밀번호 검증은 
-    # 데이터 요청과 동시에 일어나야 함 -> 동지적 처리
+    # 데이터 요청과 동시에 일어나야 함 -> 동기적 처리
     def verify_password(self, plain_password: str, hashed_passworod: str) -> bool: 
                                                     # return 값 = bool (True / False)
                         # plain password : 일반 텍스트 비밀번호
