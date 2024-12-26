@@ -62,7 +62,8 @@ async def read_user_userid(user_id: str): # userid로 user 조회
     return await service.read_service_userid(user_id)
 
 # 7. 일부 조회 (read) - email
-@router.get("/user/{user_id}/{email}") # 경로 매개변수 순서에 맞게 userid/email로 설정
+@router.get("/user/{user_id}/{email}") 
+    # 경로 매개변수 순서에 맞게 userid/email로 설정 작업
 async def read_user_email(email:str): # email로 user 조회
     return await service.read_service_email(email) 
 

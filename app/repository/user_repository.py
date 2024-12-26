@@ -66,7 +66,7 @@ class UserRepository:
         # 2. 그리하여 string으로 변환하여 json 형태로 결과값을 받음.
         return users # user 조회 결과 반환
  
-# 7. 일부 조회 (reda) - email
+# 7. 일부 조회 (read) - email
     async def read_repository_email(self, email: str): # email로 user 조회
         # 비동기
         users = collection.find_one({"email":email}) # db read 명령어 
