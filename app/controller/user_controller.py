@@ -134,8 +134,4 @@ async def update_user(user_id: str, user: UpUser): # 선택값 설정, 기본값
 @router.delete("/user/{user_id}") # delete : 삭제
 async def delete_user(user_id: str):
     return await service.delete_service(user_id)
-
-
-# 이전 참고글
-# https://hanseungwan24.tistory.com/entry/Fast-API-%EA%B5%AC%EC%B6%952
     
