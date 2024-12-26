@@ -68,7 +68,7 @@ async def read_user_email(email:str): # email로 user 조회
     return await service.read_service_email(email) 
 
           
-
+# 회원가입
 # 1. 생성 (create)
 # @router.post = @app.post
 @router.post("/user/", response_model=UserIn) # post : 생성
@@ -82,7 +82,7 @@ async def create_user(user: UserIn): # 입력 model UserIn
 
 ## token ##
 # 로그인 
-@router.post("/token/", response_model=Tokens) # response_mode : 응답 처리 model
+@router.post("/user/token/", response_model=Tokens) # response_mode : 응답 처리 model
 async def login_for_access_token(
             form_data: Annotated[OAuth2PasswordRequestForm, Depends()]): 
                                         # OAuth2PasswordRequestForm : username과 password 값을 얻기 위한 form
