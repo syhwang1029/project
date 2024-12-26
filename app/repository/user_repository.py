@@ -5,7 +5,6 @@
 # https://github.com/accubits/FastAPI-MongoDB 
 
 from bson.objectid import ObjectId
-from pydantic import EmailStr # mongodb objectId
 from app.database.database.user_collection import db, collection # mongodb 
 
 from app.token.utillity import Token # jwt utillity
@@ -78,10 +77,16 @@ class UserRepository:
     # 비동기
     async def create_repository(self, user: dict): # user 생성
         # collection에서만 dict 상속 가능함
-        users = collection.insert_one(user) # db create 명령어 
-        users["_id"] = str(users.inserted_id) # insertde_id : objectid (고유 키) 자동 생성 
-        return user # ObjectId = "_id" 
+        user_idct = dict(user) # 1. user = user.dict()
+        users = collection.insert_one(user_idct) # db create 명령어 
+        # 2. collection.insert_one(user)
+        user_idct["_id"] = str(users.inserted_id) # insertde_id : objectid (고유 키) 자동 생성 
+        # 3. objectid를 string으로 결과값 받기 => json 형태로 변환 
+        return user_idct # ObjectId = "_id" 
         # objectid 에서는 await 사용 불가능함   
+        # 4. user 생성 반환
+        
+        
     # Mongodb 명령어 참고 
     # https://kimdoky.github.io/python/2018/12/03/python-nosql/
     

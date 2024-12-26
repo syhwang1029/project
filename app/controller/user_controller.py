@@ -82,11 +82,11 @@ async def create_user(user: UserIn): # 입력 model UserIn
 
 ## token ##
 # 로그인 
-@router.post("/user/token/", response_model=Tokens) # response_mode : 응답 처리 model
+@router.post("/token/", response_model=Tokens) # response_mode : 응답 처리 model
 async def login_for_access_token(
             form_data: Annotated[OAuth2PasswordRequestForm, Depends()]): 
                                         # OAuth2PasswordRequestForm : username과 password 값을 얻기 위한 form
-    user= await service.read_service_username(form_data.username) # username : user 조회 
+    user = await service.read_service_username(form_data.username) # username : user 조회 
     
     # 비밀번호 검증 -> 동기로 처리
     if not user or not token_service.verify_password(form_data.password, user["password"]): 
