@@ -30,7 +30,7 @@ class UserIn(User):
 # 출력 UserOut 
 class UserOut(User): # 리캡 : User 클래스 상속받음 
      pass # 비밀번호 미포함
- 
+
      
 # Update
 class UpUser(BaseModel): 
