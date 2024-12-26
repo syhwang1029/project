@@ -28,19 +28,23 @@ class TokenService:
         self.oauth2_scheme = oauth2_scheme # token url
 
 # password
-    # 일반 텍스트 비밀번호 해싱                    
-    async def hashed_password(self, password: str) -> str:
+    # 일반 텍스트 비밀번호 해싱 
+    # 동기 : 데이터의 요청과 결과가 한자리에서 동시에 일어나는 것                 
+    def hashed_password(self, password: str) -> str:
                                                 # return 값 = str
         return self.jwt.pwd_context.hash(password)
                         # hash : 임의의 길이의 데이터(key)를 고정된 길이의 데이터(hash value)로 매핑(=hashing)
     
     # 비밀번호 검증
-    async def verify_password(self, plain_password: str, hashed_passworod: str) -> bool: 
+    # user가 입력한 일반 텍스트 비밀번호와 
+    # database에 저장된 해싱 비밀번호 검증은 
+    # 데이터 요청과 동시에 일어나야 함 -> 동지적 처리
+    def verify_password(self, plain_password: str, hashed_passworod: str) -> bool: 
                                                     # return 값 = bool (True / False)
                         # plain password : 일반 텍스트 비밀번호
                         # hashed password : 해싱 비밀번호 (암호화)
                                                             
-        return await self.jwt.pwd_context.verify(plain_password, hashed_passworod)
+        return self.jwt.pwd_context.verify(plain_password, hashed_passworod)
                         # verify 함수로 비밀번호 일치 여부 확인 
                         # password = hashed_pass => bool로 return  
     # JWT 설명 참고
