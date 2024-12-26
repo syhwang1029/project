@@ -60,7 +60,7 @@ class UserRepository:
     async def read_repository_userid(self, user_id: str): # userid로 user 조회
         # 비동기 
         users = collection.find_one({"_id":ObjectId(user_id)}) # db raed 명령어
-        # 1. pymongo를 통해 colllection에서 find한 objectid는 유효한 json 타입이 아님
+        # 1. pymongo를 통해 collection에서 find한 objectid는 유효한 json 타입이 아님
                             # userid로 user 조회(조건)
         users["_id"] = str(users["_id"]) # user 조회
         # 2. 그리하여 string으로 변환하여 json 형태로 결과값을 받음.
