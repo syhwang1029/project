@@ -34,7 +34,7 @@ class UserService:
     # 1. 생성 (create)    
     # 비동기
     async def create_service(self, user: UserIn): # 입력 model : UserIn     
-        hashed_passworod = await self.token_service.hashed_password(user.password)  # 해싱 비밀번호
+        hashed_passworod = self.token_service.hashed_password(user.password)  # 해싱 비밀번호
                     # 의존성 주입
         user_data = dict(user) # user_data = UserIn.dict()
         user_data["password"] = hashed_passworod # 일반 텍스트 비밀번호 = 해시된 비밀번호
