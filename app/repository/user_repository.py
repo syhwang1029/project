@@ -31,7 +31,7 @@ class UserRepository:
                             # for in 반복문 참고
                             # https://wikidocs.net/16045
             user["_id"] = str(user["_id"]) # json type으로 변경 
-                                           # json 형태인 objectid = strng으로 변경 작업 필요
+                                           # json 형태인 objectid = string으로 변경 작업 필요
                                            # "_id"의 key => str 으로 변경 ==> json 형태
                                            # 요약 : objectid을 str으로 변경하여 json 형태로 사용함
                                            # pymongo objectid 참고 
@@ -41,7 +41,17 @@ class UserRepository:
         # 조회 참고
         # https://github.com/accubits/FastAPI-MongoDB
  
- # 4. 일부 조회 (read)
+# userid                                     
+    async def read_repository_userid(self, user_id: str): # userid로 user 조회
+        # 비동기
+                                    # user_id = Objcetid
+                                    # 1. pymongo를 통해 collection으로 find한 objecteid는 유효한 json 타입 x
+                                    # 2. 그리하여 Objectid는 string으로 변환해야 함
+                                    # "_id" 필드는 index(key)이기 때문에 string 타입으로 지정함
+                                    # https://ryu-e.tistory.com/2
+        return  collection.find_one({"_id":ObjectId(user_id)}) 
+ 
+ # 4. 일부 조회 (read) - token
     async def read_repository_username(self, username: str): # username으로 특정 user 조회 
         user = collection.find_one({"username": username}) 
         if user: # objectId = user_id 지정
@@ -53,6 +63,8 @@ class UserRepository:
          # 해당 user(대상)가 아닌 경우, 무효(None) 처리함
                 # return None 설명 참고
                 # https://velog.io/@munang/%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-Python-None-%EB%A6%AC%ED%84%B4%ED%95%98%EB%8A%94-%EA%B2%BD%EC%9A%B0-%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98-None-%EB%A6%AC%ED%84%B4
+    
+        
     
 # 1. 생성 (create)   
     # 비동기

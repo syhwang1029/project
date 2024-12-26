@@ -55,6 +55,13 @@ async def read_user():
     # 비동기 
     return await service.read_service() 
             # 의존성 주입
+ 
+# userid
+@router.get("/user/{user_id}}")
+async def read_user_userid(user_id: str):
+    # 비동기
+    return await service.read_service_userid(user_id)
+        # 의존성 주입            
 
 # 1. 생성 (create)
 # @router.post = @app.post
@@ -108,7 +115,7 @@ async def login_for_access_token(
 # 2. 수정 (update)
 # @router.put = @app.put //전체 수정
 # @routre.patch = @app.patch //일부 수정
-@router.put("/user/{user_id}", response_model=UpUser) 
+@router.put("/user/{user_id}") 
 async def update_user(user_id: str, user: UpUser): # 선택값 설정, 기본값 = None
     # 비동기                    
     return await service.update_service(user_id, user)

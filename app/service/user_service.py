@@ -24,12 +24,22 @@ class UserService:
         # 비동기 
         return await self.repository.read_repository()
                 # 의존성 주입
+    
+    # userid
+    async def read_service_userid(self, user_id: str): # userid로 user 조회
+        # 비동기
+        return await self.repository.read_repository_userid(user_id)
+    
                 
-    # 4. 일부 조회 (read)
-    async def read_service_username(self, username: str):# username 으로 user 조회
+    # 4. 일부 조회 (read) - token
+    async def read_service_username(self, username: str): 
+                                        # username으로 user 조회
         # 비동기
         return await self.repository.read_repository_username(username)
                     # 의존성 주입
+    
+
+    
     
     # 1. 생성 (create)    
     # 비동기
