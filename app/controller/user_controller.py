@@ -75,7 +75,7 @@ async def login_for_access_token(
                                         # OAuth2PasswordRequestForm : username과 password 값을 얻기 위한 form
     user= await service.read_service_username(form_data.username) # username : user 조회 
     
-    # 비밀번호 검증 -> 동기로 처리헤애 함
+    # 비밀번호 검증 -> 동기로 처리
     if not user or not token_service.verify_password(form_data.password, user["password"]): 
                                                         # 입력 받은 텍스트 비밀번호와 db에 저장된 비밀번호 일치 유무 검증
                                                     # verify_password 메소드 return값인 pwd_context.verify로 검증 시도함
