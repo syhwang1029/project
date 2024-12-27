@@ -11,7 +11,7 @@ class CommentService:
         return await self.repository.create_repository(comment)
     
 # 2. 수정 (update)
-    async def update_service(self, comment_id: str, comment: CommentUpdate) -> list:
+    async def update_service(self, comment_id: str, comment: CommentUpdate):
         return await self.repository.update_repositoty(comment_id, comment)
     
 # 3. 삭제 (delete)
