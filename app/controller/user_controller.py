@@ -100,7 +100,7 @@ async def login_for_access_token( # 로그인 및 JWT 토큰 인증
             status_code=status.HTTP_400_BAD_REQUEST, # 400 에러 : 잘못된 요청
                                                       # 제공된 입력에 오류가 있거나 관련이 없는 입력인 경우
             # from fastapi import status
-            detail="username 또는 password가 일치하지 않거나, 해당 user가 존재하지 않습니다.", 
+            detail="username 또는 password가 올바르지 않습니다.", 
                 # client에게 보낼 오류 메세지
             headers={"WWW-Authenticate": "Bearer"}, 
                     # WWW-Authenticate : 인증 정보인 Authenticate 헤더

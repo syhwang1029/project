@@ -8,7 +8,7 @@ class Token:
 # passlib context
 # db 저장 전에 비밀번호 해싱
 
-# 패스워드 해싱 유틸리티
+# password 해싱 유틸리티
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
                             # 알고리즘 : bcrypt 
 
