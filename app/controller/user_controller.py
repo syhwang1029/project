@@ -66,8 +66,9 @@ async def read_user_userid(user_id: str): # userid로 user 조회
 async def read_user_email(email:str): # email로 user 조회
     return await service.read_service_email(email) 
 
-# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")          
+         
 # 회원가입 (JWT 토큰 생성)
+# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token") 
 # 1. 생성 (create)
 # @router.post = @app.post
 @router.post("/token/", response_model=UserIn) # post : 생성
@@ -82,7 +83,8 @@ async def create_user(user: UserIn): # 입력 model UserIn
 ## token ##
 # 로그인 (JWT 토큰 인증)
 @router.post("/login/", response_model=Tokens) # response_mode : 응답 처리 model
-                            # model : Tokens
+                            # model : Tokens 
+                            # 유틸리티 class명이 Token이여서, model명을 Tokens로 변경함
 async def login_for_access_token( # 로그인 및 JWT 토큰 인증
             form_data: Annotated[OAuth2PasswordRequestForm, Depends()]): 
                                         # OAuth2PasswordRequestForm : username과 password 값을 얻기 위한 form
@@ -90,12 +92,13 @@ async def login_for_access_token( # 로그인 및 JWT 토큰 인증
     
     # 비밀번호 검증 -> 동기로 처리
     if not user or not token_service.verify_password(form_data.password, user["password"]): 
-                                                        # 입력 받은 텍스트 비밀번호와 db에 저장된 비밀번호 일치 유무 검증
+                                                        # 입력 받은 텍스트 비밀번호와 db에  저장된 비밀번호 일치 유무 검증
                                                     # verify_password 메소드 return값인 pwd_context.verify로 검증 시도함
                                                    
         # raise : 의도적인 에러 발생 
         raise HTTPException( 
-            status_code=status.HTTP_401_UNAUTHORIZED, # 401 에러 : 해당 user를 찾지 못하거나 비밀번호가 일치하지 않은 경우 
+            status_code=status.HTTP_400_BAD_REQUEST, # 400 에러 : 잘못된 요청
+                                                      # 제공된 입력에 오류가 있거나 관련이 없는 입력인 경우
             # from fastapi import status
             detail="username 또는 password가 일치하지 않거나, 해당 user가 존재하지 않습니다.", 
                 # client에게 보낼 오류 메세지
@@ -114,7 +117,7 @@ async def login_for_access_token( # 로그인 및 JWT 토큰 인증
                 )
     
     return {"access_token": access_token, "token_type": "bearer"}
-            # 액세스 토큰 : , 토큰 타입 : bearer
+            # 액세스 토큰 : secret key , 토큰 타입 (payload) : bearer
             # bearer 보안 토큰 : jwt 토큰 포함 
     # token router 참고
     # https://databoom.tistory.com/entry/FastAPI-JWT-%EA%B8%B0%EB%B0%98-%EC%9D%B8%EC%A6%9D-6
