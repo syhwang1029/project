@@ -78,6 +78,8 @@ class UserRepository:
     async def create_repository(self, user: dict): # user 생성
         # collection에서만 dict 상속 가능함
         user_idct = dict(user) # 1. user = user.dict()
+        # user_idct 선언 이유 : 쿼리 매개변수 user와 따로 구분 -> server에 넘길 때만 사용
+        # repository에서만 사용함
         users = collection.insert_one(user_idct) # db create 명령어 
         # 2. collection.insert_one(user)
         user_idct["_id"] = str(users.inserted_id) # insertde_id : objectid (고유 키) 자동 생성 

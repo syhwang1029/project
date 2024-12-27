@@ -9,8 +9,6 @@ from app.token.utillity import Token, SECRET_KEY, ALGORITHM
 # https://wikidocs.net/176934
 
  
-
-
 # token service
 class TokenService:
     def __init__(self):
@@ -43,7 +41,7 @@ class TokenService:
 # JWT 토큰 생성 함수
     # 만료 시간
     def create_access_token(self, user_data: dict, expires_delta: timedelta | None = None):  
-                                    # data : 딕셔너리의 형태로 유저 정보 포함
+                                    # user_data : 딕셔너리의 형태로 유저 정보 포함
                                     # expires_delta : jwt 만료시간
         # 유저정보 encode 
         # encoding : 사용자가 입력한 값을 컴퓨터 언어(code)로 변환시키는 것

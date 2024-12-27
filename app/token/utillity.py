@@ -13,7 +13,8 @@ class Token:
                             # 알고리즘 : bcrypt 
 
 
-# jwt(json web token) 생성 => Payload
+# JWT (json web token) 토큰 생성을 위한 설정 
+# => Payload
 SECRET_KEY = "3e43d54f6479cb9dd441c33538e3f10180f5aa891de8b52d6248bfc0926bdbfa" # 비밀 키
 ALGORITHM = "HS256" # 암호화 해시 알고리즘 
 ACCESS_TOKEN_EXPIRE_MINUTES = 30  # 만료시간 = 30분
