@@ -12,6 +12,7 @@ from app.database.database.board_collection import db, collection # mongodb
 # board repository
 class BoardRepository: 
         def __init__(self):
+            self.db = db # board database
             self.collection = db # board colletcion
     
     # 5. 전체 조회 (read)

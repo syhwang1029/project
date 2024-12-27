@@ -15,6 +15,7 @@ from app.token.utillity import Token # jwt utillity
 # user repository 
 class UserRepository:   
     def __init__(self): #mongodb 정보
+        self.db = db # user database
         self.collection = collection # user colletcion
         
         self.jwt = Token() # jwt

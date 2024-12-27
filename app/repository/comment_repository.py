@@ -1,5 +1,5 @@
 from bson import ObjectId # comment id
-from app.database.database.comment_collection import collection # comment collection
+from app.database.database.comment_collection import db, collection # comment collection
 
 # crud 참고 
 # https://dev.to/programadriano/python-3-fastapi-mongodb-p1j
@@ -8,7 +8,8 @@ from app.database.database.comment_collection import collection # comment collec
 # comment repository
 class CommentRepositoty:
     def __init__(self):
-        self.collection = collection # board collection 
+        self.db = db # comment database
+        self.collection = collection # comment collection 
     
 # 1. 생성 (create)
     async def create_repository(self, comment: str): # 새로운 comment 생성 
