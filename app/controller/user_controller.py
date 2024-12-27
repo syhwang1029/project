@@ -66,7 +66,7 @@ async def read_user_userid(user_id: str): # userid로 user 조회
 async def read_user_email(email:str): # email로 user 조회
     return await service.read_service_email(email) 
 
-          
+# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")          
 # 회원가입 (JWT 토큰 생성)
 # 1. 생성 (create)
 # @router.post = @app.post
