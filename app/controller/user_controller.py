@@ -13,12 +13,12 @@
 # bson과 json의 차이점
 # https://velog.io/@chayezo/MongoDB-JSON-vs.-BSON
 
-from datetime import timedelta
-from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from app.service.token_service import TokenService
-from app.token.utillity import ACCESS_TOKEN_EXPIRE_MINUTES, Token # jwt utillity
+from datetime import timedelta 
+from typing import Annotated # 토큰 만료시간
+from fastapi import APIRouter, Depends, HTTPException # 의존성 주입, 예외 처리
+from fastapi.security import  OAuth2PasswordRequestForm
+from app.service.token_service import TokenService # token service
+from app.token.utillity import ACCESS_TOKEN_EXPIRE_MINUTES, Token # jwt utillity =>  jwt 발급을 위한 설정
 # from fastapi.responses import JSONResponse # router 
 # 라우터 참고
 # https://wikidocs.net/176226
@@ -37,7 +37,6 @@ router = APIRouter( #router란 객체는 app = FastAPI와 동일한 효과 (rout
 
 service = UserService() # user service 
 token_service = TokenService() # token service
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token") 
 
 # token
 jwt = Token() # Json Web Token
@@ -68,10 +67,10 @@ async def read_user_email(email:str): # email로 user 조회
     return await service.read_service_email(email) 
 
           
-# 회원가입
+# 회원가입 (JWT 토큰 생성)
 # 1. 생성 (create)
 # @router.post = @app.post
-@router.post("/user/", response_model=UserIn) # post : 생성
+@router.post("/token/", response_model=UserIn) # post : 생성
   # path parameter (경로 파라미터)
   # token 발급
 async def create_user(user: UserIn): # 입력 model UserIn
@@ -81,9 +80,10 @@ async def create_user(user: UserIn): # 입력 model UserIn
         # 의존성 주입
 
 ## token ##
-# 로그인 
-@router.post("/token/", response_model=Tokens) # response_mode : 응답 처리 model
-async def login_for_access_token(
+# 로그인 (JWT 토큰 인증)
+@router.post("/login/", response_model=Tokens) # response_mode : 응답 처리 model
+                            # model : Tokens
+async def login_for_access_token( # 로그인 및 JWT 토큰 인증
             form_data: Annotated[OAuth2PasswordRequestForm, Depends()]): 
                                         # OAuth2PasswordRequestForm : username과 password 값을 얻기 위한 form
     user = await service.read_service_username(form_data.username) # username : user 조회 
@@ -107,13 +107,14 @@ async def login_for_access_token(
                                         # 토큰 만료시간 (30분) 
     # 토큰 생성                                   
     access_token = token_service.create_access_token(
-                                       
-                user_data={"sub": user["username"]}, # 토큰의 주체 : sub = usernames
-                expires_delta=access_token_expires # 토큰 만료시간
+                                        # access token : 
+                                        # to_encode: 만료시간, SECRET_KEY: 비밀키, ALGORITHM: 알고리즘    
+                user_data={"sub": user["username"]}, # 토큰의 주체 : sub = username 
+                expires_delta=access_token_expires # expires_delta : 토큰 만료시간
                 )
     
     return {"access_token": access_token, "token_type": "bearer"}
-            # 액세스 토큰, 토큰 타입 : bearer
+            # 액세스 토큰 : , 토큰 타입 : bearer
             # bearer 보안 토큰 : jwt 토큰 포함 
     # token router 참고
     # https://databoom.tistory.com/entry/FastAPI-JWT-%EA%B8%B0%EB%B0%98-%EC%9D%B8%EC%A6%9D-6
