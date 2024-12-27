@@ -4,7 +4,7 @@ from app.model.board import Board, UpBoard # board model
 
 # 게시판
 # board repository 
-class BoardService(): 
+class BoardService: 
     def __init__(self): # board repository 인스턴스
         self.repository = BoardRepository() 
     
