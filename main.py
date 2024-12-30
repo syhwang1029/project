@@ -20,7 +20,7 @@ app = FastAPI()
 
 ## 1. user ##
 app.include_router(user_controller.router)
-## 2. board ##
+## 2. board ## 
 app.include_router(board_controller.router)
 ## 3. comment ##
 app.include_router(comment_controller.router)
