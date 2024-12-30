@@ -16,7 +16,7 @@ class CommentRepositoty:
         comments = collection.insert_one(comment) # mongodb 명령어로 새로운 comment의 data 등록
                     # 단일 문서로 comment 생성 
         return self.read_repository_commentid(comments.inserted_id) # objectid 자동 생성 
-                            # 전체 조회 함수(read_repository)에 저장 
+                            # objectid로 조회하는 함수(read_repository_commentid)로 반환
 
 # 5. 일부 조회 (read) - comment id
     async def read_repository_commentid(self, comment_id: ObjectId): # comment id로 일부 comment의 data 조회
