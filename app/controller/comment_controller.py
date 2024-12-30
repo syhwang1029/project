@@ -28,16 +28,17 @@ async def read_comment():
 # 5. 일부 조회 (read) - comment id 
 @router.get("/comment/{comment_id}", response_model=Comment) # 경로 매개변수 순서대로 지정함
 async def raed_comment_commentid(comment_id: str): # comment id로 comment 일부 조회
-    comment = await service.read_service_commentid(ObjectId(comment_id)) # comment_id = ObjectId
+    comment = service.read_service_commentid(ObjectId(comment_id)) # comment_id = ObjectId
     return await comment
     
 # 2. 수정 (update)
 @router.put("/comment/{comment_id}", response_model=Comment)
 async def update_comment(comment_id: str, comment: CommentUpdate):
-    return await service.update_service(comment_id, comment)
+     comment_update = await service.update_service(ObjectId(comment_id), comment.model_dump())
+     return await comment_update
 
 # 3. 삭제 (delete)
 @router.delete("/comment/{comment_id}", response_model=str) # comment id : str
 async def delete_comment(comment_id: str):
-    comment_delete = await service.delete_service(ObjectId(comment_id))
+    comment_delete = service.delete_service(ObjectId(comment_id))
     return await comment_delete
