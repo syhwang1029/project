@@ -1,4 +1,4 @@
-from bson import ObjectId # comment id
+from bson import ObjectId # objectid = comment id
 from app.database.database.comment_collection import db, collection # comment mongodb
 # crud 참고 
 # https://dev.to/programadriano/python-3-fastapi-mongodb-p1j
@@ -7,13 +7,14 @@ from app.database.database.comment_collection import db, collection # comment mo
 # 댓글 (comment)
 # comment repository
 class CommentRepositoty:
-    def __init__(self):
+    def __init__(self): # comment mongodb
         self.db = db # comment database
         self.collection = collection # comment collection 
     
-# 1. 생성 (create)
+# 1. 생성 (create) 
     async def create_repository(self, comment): # 새로운 comment 생성 
         comments = collection.insert_one(comment) # mongodb 명령어로 새로운 comment의 data 등록
+                    # 단일 문서로 comment 생성 
         return self.read_repository_commentid(comments.inserted_id) # objectid 자동 생성 
                             # 전체 조회 함수(read_repository)에 저장 
 
@@ -24,8 +25,8 @@ class CommentRepositoty:
                 comment["_id"] = str(comment["_id"]) # objectid : str 변환
                                                      # 이유 : pymongo로 불러온 mongodb 명령어는 유효한 json 타입이 아님 
                                                      # str 형변환 후 json 형태로 comment의 data를 불러옴
-                del comment["_id"] # data가 없는 경우 : objectid 삭제 
-                return comment # comment의 결과값 반환
+                del comment["_id"] # data인 경우 : objectid 삭제
+            return comment # comment의 결과값 반환
 
 # 4. 전체 조회 (raed) 
     async def read_repository(self) -> list: # list로 comment 결과값 반환
@@ -45,6 +46,6 @@ class CommentRepositoty:
         return self.read_repository_commentid(comment_id) # 수정한 comment의 data 반환
 
 # 3. 삭제 (delete)
-    async def delete_repository(self, comment_id: ObjectId) -> bool: # comment id로 comment 삭제
+    async def delete_repository(self, comment_id: ObjectId) -> bool: # comment id로 comment 삭제 
         comments = collection.delete_one({"_id":comment_id}) # comment 삭제
-        return comments.deleted_count > 0 # deleted_count = 1 : 성공
+        return comments.deleted_count > 0 # deleted_count = 1 : 성공 # bool로 반환
