@@ -1,6 +1,6 @@
-from typing import List
-from bson import ObjectId
-from fastapi import APIRouter # router
+from typing import List # 전체 조회 (read)
+from bson import ObjectId # objectid = comment id
+from fastapi import APIRouter # router (crud)
 from app.service.comment_service import CommentService # comment service
 from app.model.comment import Comment, CommentUpdate # comment model
 
@@ -33,12 +33,13 @@ async def raed_comment_commentid(comment_id: str): # comment id로 comment 일�
     
 # 2. 수정 (update)
 @router.put("/comment/{comment_id}", response_model=Comment)
-async def update_comment(comment_id: str, comment: CommentUpdate):
+async def update_comment(comment_id: str, comment: CommentUpdate): # comment id로 comment 일부 수정
      comment_update = await service.update_service(ObjectId(comment_id), comment.model_dump())
      return await comment_update
 
 # 3. 삭제 (delete)
-@router.delete("/comment/{comment_id}", response_model=str) # comment id : str
-async def delete_comment(comment_id: str):
-    comment_delete = service.delete_service(ObjectId(comment_id))
-    return await comment_delete
+@router.delete("/comment/{comment_id}") 
+async def delete_comment(comment_id: str): # comment id로 comment 삭제
+    comment_delete = service.delete_service(ObjectId(comment_id)) 
+                            # objectid = comment id
+    return await comment_delete 
