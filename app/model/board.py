@@ -1,4 +1,4 @@
-from typing import List, Optional, Union # 선택 메소드
+from typing import Optional # 선택 메소드
 from pydantic import BaseModel, EmailStr
 
 from app.model.comment import Comment # comment
