@@ -45,6 +45,6 @@ class CommentRepositoty:
         return self.read_repository_commentid(comment_id) # 수정한 comment의 data 반환
 
 # 3. 삭제 (delete)
-    async def delete_repository(self, comment_id: ObjectId): # comment id로 comment 삭제
+    async def delete_repository(self, comment_id: ObjectId) -> bool: # comment id로 comment 삭제
         comments = collection.delete_one({"_id":comment_id}) # comment 삭제
-        return comments.deleted_count # deleted_count = 1 : 성공
+        return comments.deleted_count > 0 # deleted_count = 1 : 성공
