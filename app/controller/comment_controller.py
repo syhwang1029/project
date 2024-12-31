@@ -2,7 +2,6 @@ from typing import List # 전체 조회 (read)
 from bson import ObjectId # objectid = comment id
 from fastapi import APIRouter # router (crud)
 from app.service.comment_service import CommentService # comment service
-from app.service.reply_service import ReplyService # reply service
 from app.model.comment import Comment, CommentUpdate # comment model
 from app.model.reply import Reply # reply model
 
@@ -13,7 +12,6 @@ router = APIRouter(
 )
 
 service =  CommentService() # comment service
-rep = ReplyService() # reply service
 
 ## 댓글 (comment) ##
 # 1. 생성 (create)
