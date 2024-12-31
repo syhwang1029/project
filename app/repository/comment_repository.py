@@ -59,7 +59,7 @@ class CommentRepositoty:
 
     
 # 6. 대댓글 생성 (create), 댓글에 대댓글 추가 (update)
-    async def create_repository_from_reply(self, comment_id: ObjectId, reply): # objectif = comment_id, reply : 새로운 reply의 data
+    async def create_repository_from_reply(self, comment_id: ObjectId, reply) -> Array: # objectif = comment_id, reply : 새로운 reply의 data
         reply_data = self.rep_col.insert_one(reply) # rep_col : reply collection
         # mongodb 명령어로 reply collection에 새로운 reply의 data 생성
         reply_id = str(reply_data.inserted_id) # reply의 data 생성되면서 objectid 자동 생성 후 reply collection에 추가됨
