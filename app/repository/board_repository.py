@@ -15,16 +15,16 @@ from app.repository.comment_repository import CommentRepositoty # comment reposi
 class BoardRepository: 
         def __init__(self): # mongodb
             self.db = db # board database
-            self.collection = db # board colletcion
+            self.collection = collection # board colletcion
             
             # comment
             self.com = CommentRepositoty() # comment repository
             self.com_col = self.com.collection # comment collection 
     
     # 5. 전체 조회 (read)
-        async def read_repository(self) -> list:
+        async def read_repository(self):
         # 비동기
-            boards = collection.find() # mongodb find 명령어
+            boards = self.collection.find() # mongodb find 명령어
             boardlist = [] #board list 초기화
             for board in boards: #board라는 objectId로 board 컬렉션 데이터 조회 
                 board["_id"] = str(board["_id"]) # objectId로 조회 
@@ -34,14 +34,14 @@ class BoardRepository:
     # 4. 일부 조회 (read) #ObjectId(board id)로 조회
         async def read_repository_boardid(self, board_id: str): # ObjectId
             # 비동기 
-            boards = collection.find_one({"_id": ObjectId(board_id)})  
+            boards = self.collection.find_one({"_id": ObjectId(board_id)})  
             boards["_id"] = str(boards["_id"]) # objectId로 board id 지정
             return boards          
           
     # 1. 생성 (create) # 단일 문서 삽입
         async def create_repository(self, board: dict): # dict = {key, value}  
         # 비동기                              
-            boards = collection.insert_one(board)
+            boards = self.collection.insert_one(board)
                      # monnodb data insert 명령어
             return str(boards.inserted_id) # ObjectId 자동 생성 
                             # boardid <= update, delete 때 특정조건으로 사용 
@@ -58,7 +58,7 @@ class BoardRepository:
 
         # objectId 설정
         # https://damansa1.tistory.com/58
-            boards = collection.update_one({"_id": ObjectId(board_id)},  # {field($set):vlaue}
+            boards = self.collection.update_one({"_id": ObjectId(board_id)},  # {field($set):vlaue}
                                         {"$set": board}) 
                                                 # monodb update 명령어 
                                                 # 특정 조건(board id) 하나로 수정
@@ -82,8 +82,10 @@ class BoardRepository:
         async def create_repository_from_comment(self, board_id: str, comment: dict) -> bool:
             comment_data = self.com_col.insert_one(comment) # comment collection에 data 생성
             comment_id = str(comment_data.inserted_id) # comment 생성되면서 objectid 자동 생성
-            comment_id = collection.update_one(                
+            comment_id = self.collection.update_one(                
                     {"_id": ObjectId(board_id)}, # boardid로 comment 추가할 board 지정
-                    {"$push": {"comment":str(ObjectId(comment_id))}} # 생성한 comment 필드를 "$push" 연산자로 board에 추가 
+                    {"$push": {"comment":comment_id}} # 생성한 comment 필드를 "$push" 연산자로 board에 추가 
             )
-            return comment_id.modified_count > 0 # 추가 성공 = 1, 추가 실패 = 0)
+            
+            return comment_id.modified_count > 0 # bool 타입으로 결과값 반환 
+                                                # 추가 성공 = 1, 추가 실패 = 0
