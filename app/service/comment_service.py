@@ -1,3 +1,4 @@
+from app.model.reply import Reply
 from app.repository.comment_repository import CommentRepositoty # comment repository
 from app.model.comment import Comment, CommentUpdate # comment model
 
@@ -26,3 +27,10 @@ class CommentService:
 # 3. 삭제 (delete)
     async def delete_service(self, comment_id: str):
         return await self.repository.delete_repository(comment_id)
+    
+    
+# 6. 대댓글 추가 (create)
+    async def create_service_from_reply(self, comment_id: str, reply: Reply): 
+        # commen id로 대댓글 추가할 comment collection 지정, 
+        # 대댓글 추가 후 Reply model로 reply collection에 data 저장 
+        return await self.repository.create_repository_from_reply(comment_id, reply)

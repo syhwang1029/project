@@ -2,7 +2,9 @@ from typing import List # 전체 조회 (read)
 from bson import ObjectId # objectid = comment id
 from fastapi import APIRouter # router (crud)
 from app.service.comment_service import CommentService # comment service
+from app.service.reply_service import ReplyService # reply service
 from app.model.comment import Comment, CommentUpdate # comment model
+from app.model.reply import Reply # reply model
 
 # comment router (crud)
 router = APIRouter(
@@ -11,7 +13,7 @@ router = APIRouter(
 )
 
 service =  CommentService() # comment service
-
+rep = ReplyService() # reply service
 
 ## 댓글 (comment) ##
 # 1. 생성 (create)
@@ -19,6 +21,7 @@ service =  CommentService() # comment service
 async def create_comment(comment: Comment):
     new_comment = await service.create_service(comment.model_dump()) # model_dump : json 형태로 변환
     return await new_comment
+
 
 # 4. 전체 조회 (read)
 @router.get("/comment/", response_model=List[Comment]) # list 형태로 comment 전체 조회
@@ -30,7 +33,7 @@ async def read_comment():
 async def raed_comment_commentid(comment_id: str): # comment id로 comment 일부 조회
     comment = service.read_service_commentid(ObjectId(comment_id)) # comment_id = ObjectId
     return await comment
-    
+
 # 2. 수정 (update)
 @router.put("/comment/{comment_id}", response_model=Comment)
 async def update_comment(comment_id: str, comment: CommentUpdate): # comment id로 comment 일부 수정
@@ -43,3 +46,11 @@ async def delete_comment(comment_id: str): # comment id로 comment 삭제
     comment_delete = service.delete_service(ObjectId(comment_id)) 
                             # objectid = comment id
     return await comment_delete 
+
+# 6. 대댓글 추가 (create) 
+@router.post("/comment/{comment_id}/reply", response_model=Comment) # comment에 reply 추가
+async def create_comment_from_reply(comment_id: str, reply: Reply): 
+            # commentid : 입력 값 => str, reply : reply collection에 data를 추가로 Reply model 사용
+    new_replu = service.create_service_from_reply(ObjectId(comment_id), reply.model_dump()) 
+    # reply.model_dump : data 생성 후 json 형태로 저장 
+    return await new_replu # 생성한 reply의 data 값을 comment에 추가한 값을 반환 
