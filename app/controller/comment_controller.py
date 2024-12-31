@@ -51,6 +51,7 @@ async def delete_comment(comment_id: str): # comment id로 comment 삭제
 @router.post("/comment/{comment_id}/reply", response_model=Comment) # comment에 reply 추가
 async def create_comment_from_reply(comment_id: str, reply: Reply): 
             # commentid : 입력 값 => str, reply : reply collection에 data를 추가로 Reply model 사용
-    new_reply =  await service.create_service_from_reply(ObjectId(comment_id), reply.model_dump())# 생성한 reply의 data 값을 comment에 추가한 값을 반환 
+    new_reply =  await service.create_service_from_reply(ObjectId(comment_id), reply.model_dump()) 
+                                # 생성한 reply의 data 값을 comment에 추가한 값을 반환 
     # reply.model_dump : data 생성 후 json 형태로 저장 
-    return await new_reply
+    return await new_reply # 생성한 reply의 data를 결과값으로 반환함

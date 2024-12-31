@@ -48,7 +48,7 @@ class CommentRepositoty:
             
 # 2. 수정 (update)
     async def update_repositoty(self, comment_id: ObjectId, comment): # comment id로 수정할 comment 지정
-        collection.update_one({"_id":comment_id}, 
+        collection.update_one({"_id": comment_id}, 
                               {"$set": comment}) # comment의 data 수정
         return self.read_repository_commentid(comment_id) # 수정한 comment의 data 반환
 
@@ -59,18 +59,22 @@ class CommentRepositoty:
 
     
 # 6. 대댓글 생성 (create), 댓글에 대댓글 추가 (update)
-    async def create_repository_from_reply(self, comment_id: ObjectId, reply) -> Array: # objectif = comment_id, reply : 새로운 reply의 data
+    async def create_repository_from_reply(self, comment_id: ObjectId, reply): # objectif = comment_id, reply : 새로운 reply의 data
         reply_data = self.rep_col.insert_one(reply) # rep_col : reply collection
         # mongodb 명령어로 reply collection에 새로운 reply의 data 생성
-        reply_id = reply_data.inserted_id # reply의 data 생성되면서 objectid 자동 생성 후 reply collection에 추가됨
+        reply_id = str(reply_data.inserted_id) # reply의 data 생성되면서 objectid 자동 생성 후 reply collection에 추가됨
         reply_id = self.collection.update_one( # comment에 reply 추가 
             # 기존에 있던 comment collection에 새로운 필드인 reply를 추가하기 때문에, 
             # insert가 아닌 update 명령어를 사용함 
             
             {"_id": comment_id},  # reply를 commentid로 지정하여 data 추가
-            {"$push": {"reply": ObjectId(reply_id)}} # $push : 기존 배열 필드(comment)에 요소(reply) 추가 
+            {"$push": {"reply": str(ObjectId(reply_id))}} # $push : 기존 배열 필드(comment)에 요소(reply) 추가 
         ) # reply_id로 comment에 reply의 data 추가 (update) 
                                     # => $push : 필드(reply)가 존재하지 않는 경우, 새 배열로 생성하고 요소를 추가함
           # 즉, push 연산자로 comment에 새로운 reply의 data를 생성함 
-        return self.read_repository_commentid(comment_id) 
+          
+          # str(ObjectId) : pymongo를 이용하여 collection에서 사용한 mongodb 명령어는 유효한 json 형태가 아님
+          # => str으로 형변환하여, 유효한 json 형태로 objectid에 data를 저장함. 
+          # 이후 replyid로 조회할때 사용하기도 함
+        return self.read_repository_commentid(comment_id)
                 # objectid로 조회하는 함수(read_repository_commentid)로 반환

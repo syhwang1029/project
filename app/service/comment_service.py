@@ -33,4 +33,4 @@ class CommentService:
     async def create_service_from_reply(self, comment_id: str, reply: Reply): 
         # commen id로 대댓글 추가할 comment collection 지정, 
         # 대댓글 추가 후 Reply model로 reply collection에 data 저장 
-        return await self.repository.create_repository_from_reply(comment_id, reply)
+        return await self.repository.create_repository_from_reply(comment_id, reply) # commentid와 reply의 data를 결과값으로 반환함
