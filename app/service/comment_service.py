@@ -1,6 +1,6 @@
-from app.model.reply import Reply
 from app.repository.comment_repository import CommentRepositoty # comment repository
 from app.model.comment import Comment, CommentUpdate # comment model
+from app.model.reply import Reply # reply model
 
 # comment service
 class CommentService:
