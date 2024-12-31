@@ -1,5 +1,7 @@
+from ctypes import Array
 from bson.objectid  import ObjectId
 from app.database.database.board_collection import db, collection # mongodb
+from app.repository.comment_repository import CommentRepositoty # comment repository
 
 # crud 참고 1
 # https://dev.to/programadriano/python-3-fastapi-mongodb-p1j
@@ -11,12 +13,16 @@ from app.database.database.board_collection import db, collection # mongodb
 # 게시판
 # board repository
 class BoardRepository: 
-        def __init__(self):
+        def __init__(self): # mongodb
             self.db = db # board database
             self.collection = db # board colletcion
+            
+            # comment
+            self.com = CommentRepositoty() # comment repository
+            self.com_col = self.com.collection # comment collection 
     
     # 5. 전체 조회 (read)
-        async def read_repository(self):
+        async def read_repository(self) -> list:
         # 비동기
             boards = collection.find() # mongodb find 명령어
             boardlist = [] #board list 초기화
@@ -71,3 +77,13 @@ class BoardRepository:
                     # mongodb delete 명령어
                     # 하나만 삭제
             return boards.deleted_count 
+    
+    # 6. 게시판 생성 (crate), 게시판에 comment 추가 (update)
+        async def create_repository_from_comment(self, board_id: str, comment: dict) -> bool:
+            comment_data = self.com_col.insert_one(comment) # comment collection에 data 생성
+            comment_id = str(comment_data.inserted_id) # comment 생성되면서 objectid 자동 생성
+            comment_id = collection.update_one(                
+                    {"_id": ObjectId(board_id)}, # boardid로 comment 추가할 board 지정
+                    {"$push": {"comment":str(ObjectId(comment_id))}} # 생성한 comment 필드를 "$push" 연산자로 board에 추가 
+            )
+            return comment_id.modified_count > 0 # 추가 성공 = 1, 추가 실패 = 0)
