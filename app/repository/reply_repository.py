@@ -38,7 +38,7 @@ class ReplyRepository:
     
     # 2. 수정 (update)
     async def update_repository(self, reply_id: ObjectId, reply): 
-        collection.update_one({"_id":reply_id}, # objectid = reply id
+        collection.update_one({"_id": reply_id}, # objectid = reply id
                                {"$set": reply}) # 수정할 reply의 data 지정
         return self.read_repository_replyid(reply_id) 
             # replyid로 일부 문서 조회하는 함수(read_repository_replyid)로 반환
